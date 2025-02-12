@@ -4,7 +4,7 @@ const logo =  process.env.PUBLIC_URL + "/assets/logo.png";
 
 const NavBar = () => {
   return (
-    <nav className="bg-[#164863] p-6"> {/* Increased padding for a taller navbar */}
+    <nav className="bg-white p-6"> {/* Increased padding for a taller navbar */}
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo Section */}
         <div className="flex items-center space-x-1">
@@ -13,7 +13,7 @@ const NavBar = () => {
             alt="Serendib Galleria"
             className="w-24 h-24 rounded-full"
           />
-           <div className="text-[#ffffff] text-4xl font-bold font-mono">Serendib Galleria</div>
+           <div className="text-black text-4xl font-bold font-arial">Serendib Galleria</div>
         </div>
 
          {/* Search Bar */}
@@ -23,7 +23,7 @@ const NavBar = () => {
           <input
             type="text"
             placeholder="Search products..."
-            className="px-10 py-2 w-full rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="border border-gray-400 px-10 py-2 w-full rounded-full  focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
@@ -32,38 +32,38 @@ const NavBar = () => {
                 <div className="space-x-6 flex items-center">
           <a 
             href="/" 
-            className="text-white relative group pb-1" // Add padding-bottom
+            className="text-black relative group pb-1" // Add padding-bottom
           >
             Home
             <span 
-              className="absolute left-0 bottom-0 w-0 h-[2px] bg-[#ffffff] transition-all duration-300 group-hover:w-full"
+              className="absolute left-0 bottom-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"
             ></span>
           </a>
           <a 
             href="/about" 
-            className="text-white relative group pb-1"
+            className="text-black relative group pb-1"
           >
             Products
             <span 
-              className="absolute left-0 bottom-0 w-0 h-[2px] bg-[#ffffff] transition-all duration-300 group-hover:w-full"
+              className="absolute left-0 bottom-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"
             ></span>
           </a>
           <a 
             href="/services" 
-            className="text-white relative group pb-1"
+            className="text-black relative group pb-1"
           >
             Offers
             <span 
-              className="absolute left-0 bottom-0 w-0 h-[2px] bg-[#ffffff] transition-all duration-300 group-hover:w-full"
+              className="absolute left-0 bottom-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"
             ></span>
           </a>
           <a 
             href="/contact" 
-            className="text-white relative group pb-1"
+            className="text-black relative group pb-1"
           >
             Events
             <span 
-              className="absolute left-0 bottom-0 w-0 h-[2px] bg-[#ffffff] transition-all duration-300 group-hover:w-full"
+              className="absolute left-0 bottom-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"
             ></span>
           </a>
         </div>
@@ -72,20 +72,20 @@ const NavBar = () => {
         <div className="flex space-x-6 items-center">
           <a 
             href="/cart" 
-            className="text-white relative group pb-1"
+            className="text-black relative group pb-1"
           >
             <FaShoppingCart className="text-xl" />
             <span 
-              className="absolute left-0 bottom-0 w-0 h-[2px] bg-[#ffffff] transition-all duration-300 group-hover:w-full"
+              className="absolute left-0 bottom-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"
             ></span>
           </a>
           <a 
             href="/wishlist" 
-            className="text-[#FFFFFF] relative group pb-1"
+            className="text-black relative group pb-1"
           >
             <FaRegHeart className="text-xl" />
             <span 
-              className="absolute left-0 bottom-0 w-0 h-[2px] bg-[#ffffff] transition-all duration-300 group-hover:w-full"
+              className="absolute left-0 bottom-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"
             ></span>
           </a>
         </div>
