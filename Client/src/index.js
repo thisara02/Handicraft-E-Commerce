@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import VendorLoginPage from "./pages/VendorLoginPage";
 import CustomerLoginPage from "./pages/CustomerLoginPage";
 import VendorRegistrationPage from "./pages/VendorRegistrationPage";
+import HomePage from "./pages/HomePage";
 import CustomerRegistrationPage from "./pages/CustomerRegistrationPage";
 import "./index.css"; // Tailwind CSS styles
 
@@ -15,7 +16,8 @@ root.render(
   <React.StrictMode>
     <Router>
       <Routes>
-      <Route path="" element={<CustomerLoginPage />} />
+      <Route path="" element={<HomePage />} />
+        <Route path="/home" element={<HomePage />} />
         <Route path="/vendor-login" element={<VendorLoginPage />} />
         <Route path="/vendor-register" element={<VendorRegistrationPage />} />
         <Route path="/customer-login" element={<CustomerLoginPage />} />

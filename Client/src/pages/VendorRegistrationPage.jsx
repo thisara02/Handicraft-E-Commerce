@@ -4,7 +4,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "react-phone-input-2/lib/style.css";
 import NavBar from '../components/NavBar1';
 import Footer from '../components/Footer1';
-const Img1 =  process.env.PUBLIC_URL + "/assets/img2.jpeg";
+const Img1 =  process.env.PUBLIC_URL + "/assets/vendor-reg.jpg";
 
 const VendorRegistrationPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -17,9 +17,7 @@ const VendorRegistrationPage = () => {
 
       {/* Main Content */}
       <div className="flex flex-col items-center justify-center flex-grow py-12">
-        <h1 className="text-4xl font-bold mb-4 font-aptos text-center text-[#000000]">
-          Vendor Registration
-        </h1>
+        
         
         {/* Image Section */}
         <div className="w-full max-w-4xl mb-8">
@@ -29,6 +27,9 @@ const VendorRegistrationPage = () => {
             className="rounded-lg shadow-md"
           />
         </div>
+        <h1 className="text-4xl font-bold mb-4 font-serif text-center text-[#634816]">
+          Vendor Registration
+        </h1>
 
         {/* Form Section */}
         <form className="w-full max-w-4xl bg-white p-8 rounded-lg shadow-lg min-h-[800px]">
@@ -215,7 +216,7 @@ const VendorRegistrationPage = () => {
           <div className="flex justify-center items-center space-x-4 mt-6">
             <button
               type="submit"
-              className="w-full py-3 px-6 bg-[#164863] text-white font-semibold rounded-md hover:bg-[#228b86] focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-96 py-3 px-6 bg-[#634816] text-white rounded-lg hover:bg-[#978845] focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               Submit
             </button>
