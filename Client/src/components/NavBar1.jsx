@@ -4,7 +4,7 @@ const logo =  process.env.PUBLIC_URL + "/assets/logo.png";
 
 const NavBar = () => {
   return (
-    <nav className="bg-white p-6"> {/* Increased padding for a taller navbar */}
+    <nav className="bg-white p-6 fixed top-0 w-full z-50 bg-white shadow-md"> {/* Increased padding for a taller navbar */}
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo Section */}
         <div className="flex items-center space-x-1">

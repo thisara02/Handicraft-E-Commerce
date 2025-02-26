@@ -9,6 +9,10 @@ const images = [
   process.env.PUBLIC_URL + "/assets/Home-C4.jpeg",
   process.env.PUBLIC_URL + "/assets/Home-C5.jpg",
   process.env.PUBLIC_URL + "/assets/Home-C6.webp",
+  process.env.PUBLIC_URL + "/assets/Home-C7.jpg",
+  process.env.PUBLIC_URL + "/assets/Home-C8.jpg",
+  process.env.PUBLIC_URL + "/assets/Home-C9.png",
+
 ];
 
 const HomePage = () => {
@@ -23,12 +27,12 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#E6EFF6]">
+    <div className="flex flex-col min-h-screen bg-[#E6EFF6] pt-16">
       {/* Header (NavBar) */}
       <NavBar />
 
       {/* Main Content */}
-      <div className="flex flex-col items-center justify-center pt-7">
+      <div className="flex flex-col items-center justify-center pt-20 mt-20">
         {/* Image Carousel */}
         <div className="relative w-full max-w-5xl overflow-hidden rounded-lg">
           <div
