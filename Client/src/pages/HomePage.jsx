@@ -32,7 +32,7 @@ const HomePage = () => {
       <NavBar />
 
       {/* Main Content */}
-      <div className="flex flex-col items-center justify-center pt-20 mt-20">
+      <div className="flex flex-col items-center justify-center pt-20 mt-10">
         {/* Image Carousel */}
         <div className="relative w-full max-w-5xl overflow-hidden rounded-lg">
           <div
@@ -63,17 +63,33 @@ const HomePage = () => {
         </div>
 
         {/* About Section */}
-        <div className="bg-white p-6 max-w-5xl mt-6 shadow-lg rounded-lg text-center">
-          <h2 className="text-2xl font-bold text-gray-800">
-            Bringing the Heart of Sri Lanka to You
-          </h2>
-          <p className="mt-3 text-gray-600">
-            Serendib Galleria is a platform dedicated to supporting Sri Lankan
-            SME craftworkers and artisans by helping them showcase and sell
-            their handmade creations. From traditional crafts to modern handmade
-            items, each product reflects the skill, creativity, and passion of
-            local makers.
-          </p>
+        <div className="bg-[#0396A6] text-white p-10 max-w-5xl mt-10 rounded-lg shadow-lg flex items-center mb-20">
+          <div className="w-2/3 pr-6">
+            <h2 className="text-3xl font-bold">
+              Bringing the Heart of Sri Lanka to You
+            </h2>
+            <p className="mt-4 text-lg py-10">
+              Serendib Galleria is a platform dedicated to supporting Sri Lankan
+              SME craftworkers and artisans by helping them showcase and sell
+              their handmade creations. From traditional crafts to modern
+              handmade items, each product reflects the skill, creativity, and
+              passion of local makers.
+            </p>
+            <p className="mt-4 text-lg">
+              Our mission is to connect these talented artisans with customers
+              who appreciate authentic, Sri Lankan-made goods, while helping
+              them grow their businesses. Shop with us to discover unique,
+              high-quality products that celebrate the essence of Sri Lankan
+              craftsmanship.
+            </p>
+          </div>
+          <div className="w-1/3">
+            <img
+              src={process.env.PUBLIC_URL + "/assets/hp-1.png"}
+              alt="Sri Lanka"
+              className="w-full h-auto rounded-lg"
+            />
+          </div>
         </div>
       </div>
 
