@@ -4,7 +4,7 @@ const logo =  process.env.PUBLIC_URL + "/assets/logo.png";
 
 const NavBar = () => {
   return (
-    <nav className="bg-white p-6 fixed top-0 w-full z-50 bg-white shadow-md"> {/* Increased padding for a taller navbar */}
+    <nav className="bg-white p-6 fixed top-0 w-full z-50 shadow-md"> {/* Increased padding for a taller navbar */}
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo Section */}
         <div className="flex items-center space-x-1">
@@ -29,7 +29,7 @@ const NavBar = () => {
 
         {/* Navigation Links */}
                 {/* Navigation Links */}
-                <div className="space-x-6 flex items-center">
+        <div className="space-x-6 flex items-center">
           <a 
             href="/" 
             className="text-black relative group pb-1" // Add padding-bottom
@@ -37,6 +37,7 @@ const NavBar = () => {
             Home
             <span 
               className="absolute left-0 bottom-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"
+              
             ></span>
           </a>
           <a 
@@ -46,6 +47,7 @@ const NavBar = () => {
             Products
             <span 
               className="absolute left-0 bottom-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"
+              
             ></span>
           </a>
           <a 
@@ -55,6 +57,7 @@ const NavBar = () => {
             Offers
             <span 
               className="absolute left-0 bottom-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"
+              
             ></span>
           </a>
           <a 
@@ -64,6 +67,7 @@ const NavBar = () => {
             Events
             <span 
               className="absolute left-0 bottom-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"
+              
             ></span>
           </a>
         </div>

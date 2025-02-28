@@ -24,8 +24,8 @@ const CustomerRegistrationPage = () => {
       <NavBar />
 
       {/* Main Content */}
-      <div className="flex flex-col items-center justify-center flex-grow py-12">
-        <h1 className="text-4xl font-bold mb-4 font-aptos text-center text-[#000000]">
+      <div className="flex flex-col items-center justify-center flex-grow pt-40">
+        <h1 className="text-4xl font-bold mb-12 font-aptos text-center text-[#000000]">
           Customer Registration
         </h1>
 

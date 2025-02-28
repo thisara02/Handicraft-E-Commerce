@@ -16,7 +16,7 @@ const VendorRegistrationPage = () => {
       <NavBar />
 
       {/* Main Content */}
-      <div className="flex flex-col items-center justify-center flex-grow py-12">
+      <div className="flex flex-col items-center justify-center flex-grow pt-40 pb-10">
         
         
         {/* Image Section */}
