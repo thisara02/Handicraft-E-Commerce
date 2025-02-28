@@ -19,7 +19,7 @@ const images = [
 const products = [
   {
     id: 1,
-    name: 'BIRD DEMON (GURULU RAKSHA) MASK',
+    name: 'BIRD DEMON MASK',
     price: 'Rs.7000/=',
     image: process.env.PUBLIC_URL + "/assets/products/sc11.jpg", // Update with your actual image path
     alt: 'Bird Demon Mask'
@@ -40,7 +40,7 @@ const products = [
   },
   {
     id: 4,
-    name: 'CANE & REED LAUNDRY BASKET',
+    name: 'CANE LAUNDRY BASKET',
     price: 'Rs.2400/=',
     image: process.env.PUBLIC_URL + "/assets/products/sc14.jpg", // Update with your actual image path
     alt: 'Cane & Reed Laundry Basket'
@@ -340,13 +340,23 @@ const HomePage = () => {
 
         </div>
 
-
-
+        <div className="relative w-full max-w-5xl mb-20">
+          <img
+            src={process.env.PUBLIC_URL + "/assets/HP-4.jpg"} // Replace with your image path
+            alt="vendors Registration Section for Serendib Galleria"
+            className="w-full h-auto rounded-xl"
+          />
+          <h1 className="absolute top-8 left-8 text-[#3f2626] text-2xl font-serif font-bold ">Unlock your potential.</h1>
+          <h1 className="absolute top-16 left-8 text-[#3f2626] text-2xl font-serif font-bold ">Every sale starts with a single step</h1>
+          <h1 className="absolute top-24 left-8 text-[#3f2626] text-2xl font-serif font-bold ">Exapnd your Items towards Global</h1>
+          <button
+            onClick={() => navigate("/customer-register")} // Navigate to the register page
+            className="absolute top-40 left-8 bg-[#302213] text-white py-3 px-6 rounded-lg shadow-lg hover:bg-blue-700 transition-colors"
+          >
+            Click Here to Register Now
+          </button>
+        </div>
       </div>
-
-      
-      
-
       {/* Footer */}
       <Footer />
       
