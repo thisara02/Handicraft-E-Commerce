@@ -61,11 +61,12 @@ const NavBar = () => {
             ></span>
           </a>
           <a 
-            href="/contact" 
+            href="/events" 
             className="text-black relative group pb-1"
           >
             Events
             <span 
+            
               className="absolute left-0 bottom-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"
               
             ></span>
