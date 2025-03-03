@@ -51,7 +51,7 @@ const NavBar = () => {
             ></span>
           </a>
           <a 
-            href="/services" 
+            href="/offers" 
             className="text-black relative group pb-1"
           >
             Offers

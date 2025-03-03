@@ -16,6 +16,7 @@ import OffersPage from "./pages/OffersPage";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
 import CartPage from "./pages/CartPage";
 import WhishlistPage from "./pages/WhishlistPage";
+import CheckoutPage from "./pages/CheckoutPage";
 import "./index.css"; // Tailwind CSS styles
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -36,7 +37,7 @@ root.render(
         <Route path="/product/:productId" element={<ProductDetailsPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/whish" element={<WhishlistPage />} />
-
+        <Route path="/checkout" element={<CheckoutPage />} />
 
       </Routes>
     </Router>
