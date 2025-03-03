@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NavBar from "../components/NavBar1";
 import Footer from "../components/Footer1";
-import { FaSearch, FaFilter, FaTimes, FaChevronLeft, FaChevronRight, FaCartPlus } from "react-icons/fa";
+import { FaSearch, FaFilter, FaTimes, FaChevronLeft, FaChevronRight, FaCartPlus, FaHeart, FaRegHeart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const products = Array.from({ length: 180 }, (_, i) => ({
@@ -28,7 +28,19 @@ const ProductPage = () => {
     return cart ? JSON.parse(cart) : [];
   };
 
+  // Load wishlist from localStorage
+  const loadWishlistFromStorage = () => {
+    const wishlist = localStorage.getItem("wishlist");
+    return wishlist ? JSON.parse(wishlist) : [];
+  };
+
   const [cart, setCart] = useState(loadCartFromStorage);
+  const [wishlist, setWishlist] = useState(loadWishlistFromStorage);
+
+  // Save wishlist to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("wishlist", JSON.stringify(wishlist));
+  }, [wishlist]);
 
   // Paginate products
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -51,6 +63,27 @@ const ProductPage = () => {
 
   const handleProductClick = (productId) => {
     navigate(`/product/${productId}`);
+  };
+
+  // Function to toggle wishlist status
+  const toggleWishlist = (e, product) => {
+    e.stopPropagation(); // Prevent triggering the product click event
+    
+    const isInWishlist = wishlist.some(item => item.id === product.id);
+    
+    if (isInWishlist) {
+      // Remove from wishlist
+      const updatedWishlist = wishlist.filter(item => item.id !== product.id);
+      setWishlist(updatedWishlist);
+    } else {
+      // Add to wishlist
+      setWishlist([...wishlist, product]);
+    }
+  };
+
+  // Function to check if a product is in the wishlist
+  const isProductInWishlist = (productId) => {
+    return wishlist.some(item => item.id === productId);
   };
 
   // Function to convert price string to number
@@ -137,9 +170,22 @@ const ProductPage = () => {
         <div className="grid grid-cols-4 gap-6">
           {paginatedProducts.map((product) => {
             const priceNumber = getPriceNumber(product.price); // Convert price to number
+            const inWishlist = isProductInWishlist(product.id);
 
             return (
-              <div key={product.id} className="border p-4 rounded-lg shadow w-full">
+              <div key={product.id} className="border p-4 rounded-lg shadow w-full relative">
+                {/* Wishlist Heart Icon */}
+                <button 
+                  onClick={(e) => toggleWishlist(e, product)}
+                  className="absolute top-2 right-2 z-10 p-2 bg-white bg-opacity-75 rounded-full"
+                >
+                  {inWishlist ? (
+                    <FaHeart className="text-red-500" size={18} />
+                  ) : (
+                    <FaRegHeart className="text-gray-500" size={18} />
+                  )}
+                </button>
+
                 <img
                   src={product.image}
                   alt={product.name}
@@ -161,8 +207,9 @@ const ProductPage = () => {
           })}
         </div>
 
-        {/* Cart Display */}
-        <div className="mt-8 text-right">
+        {/* Cart and Wishlist Display */}
+        <div className="mt-8 flex justify-between">
+          <span className="font-semibold text-xl">Wishlist: {wishlist.length} items</span>
           <span className="font-semibold text-xl">Cart: {cart.length} items</span>
         </div>
 

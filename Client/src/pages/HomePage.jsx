@@ -16,6 +16,8 @@ const images = [
   process.env.PUBLIC_URL + "/assets/Home-C9.png",
 ];
 
+
+
 const products = [
   {
     id: 1,
@@ -119,6 +121,7 @@ const imageCards = [
   },
 ];
 
+
 const ImageCard = ({ image, text }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -186,7 +189,7 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#E6EFF6] pt-16 pb-24">
+    <div className="flex flex-col min-h-screen bg-[#E6EFF6] pt-16">
       {/* Header (NavBar) */}
       <NavBar />
 
@@ -282,7 +285,7 @@ const HomePage = () => {
                   <div className="flex justify-between items-center w-full">
                     <span className="font-medium text-lg">{product.price}</span>
                     <button className="bg-blue-800 text-white text-sm py-3 px-4 rounded hover:bg-blue-700 transition-colorsp">
-                      Add to Cart
+                      View Product
                     </button>
                   </div>
                 </div>

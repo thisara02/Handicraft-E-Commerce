@@ -85,7 +85,7 @@ const NavBar = () => {
             ></span>
           </a>
           <a 
-            href="/wishlist" 
+            href="/whish" 
             className="text-black relative group pb-1"
           >
             <FaRegHeart className="text-xl" />
