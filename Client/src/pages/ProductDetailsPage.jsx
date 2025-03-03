@@ -76,7 +76,7 @@ const ProductDetails = () => {
       {/* Include NavBar */}
       <NavBar />
 
-      <div className="max-w-7xl mx-auto p-6">
+      <div className="max-w-7xl mx-auto pb-24">
         {/* Link to go back to the product list */}
         <div className="mb-6 pt-40">
           <Link to="/product" className="flex items-center text-gray-600 hover:text-blue-800 text-xl">

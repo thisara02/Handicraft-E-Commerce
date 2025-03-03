@@ -53,6 +53,12 @@ const ProductPage = () => {
     navigate(`/product/${productId}`);
   };
 
+  // Function to convert price string to number
+  const getPriceNumber = (priceString) => {
+    const numericPrice = parseFloat(priceString.replace('Rs.', '').trim());
+    return isNaN(numericPrice) ? 0 : numericPrice; // Fallback to 0 if parsing fails
+  };
+
   return (
     <div>
       <NavBar />
@@ -129,26 +135,30 @@ const ProductPage = () => {
 
         {/* Product Grid - 4 items per row, 6 rows per page */}
         <div className="grid grid-cols-4 gap-6">
-          {paginatedProducts.map((product) => (
-            <div key={product.id} className="border p-4 rounded-lg shadow w-full">
-              <img
-                src={product.image}
-                alt={product.name}
-                className="w-full h-56 object-cover mb-2 rounded-lg cursor-pointer"
-                onClick={() => handleProductClick(product.id)}
-              />
-              <h3 className="text-lg font-semibold">{product.name}</h3>
-              <p className="text-blue-600 font-bold">{product.price}</p>
-              <p className="text-gray-600 text-sm">{product.description}</p>
-              <p className="text-gray-500 text-xs mt-2">{product.category}</p>
-              <button
-                onClick={() => handleAddToCart(product)}
-                className="mt-4 bg-teal-500 text-white px-4 py-2 rounded w-full flex items-center justify-center"
-              >
-                <FaCartPlus className="mr-2" /> Add to Cart
-              </button>
-            </div>
-          ))}
+          {paginatedProducts.map((product) => {
+            const priceNumber = getPriceNumber(product.price); // Convert price to number
+
+            return (
+              <div key={product.id} className="border p-4 rounded-lg shadow w-full">
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-full h-56 object-cover mb-2 rounded-lg cursor-pointer"
+                  onClick={() => handleProductClick(product.id)}
+                />
+                <h3 className="text-lg font-semibold">{product.name}</h3>
+                <p className="text-blue-600 font-bold">Rs.{priceNumber}</p> {/* Display the numeric price */}
+                <p className="text-gray-600 text-sm">{product.description}</p>
+                <p className="text-gray-500 text-xs mt-2">{product.category}</p>
+                <button
+                  onClick={() => handleAddToCart(product)}
+                  className="mt-4 bg-teal-500 text-white px-4 py-2 rounded w-full flex items-center justify-center"
+                >
+                  <FaCartPlus className="mr-2" /> Add to Cart
+                </button>
+              </div>
+            );
+          })}
         </div>
 
         {/* Cart Display */}

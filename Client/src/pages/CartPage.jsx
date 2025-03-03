@@ -1,8 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom"; // Import Link here
 import NavBar from "../components/NavBar1";
 import Footer from "../components/Footer1";
 import { FaTimes } from "react-icons/fa";
+
+// Simulate the product data with multiple images for each product
+const products = Array.from({ length: 180 }, (_, i) => ({
+  id: i + 1,
+  name: `Handicraft Item ${i + 1}`,
+  price: `Rs.${(i + 1) * 1000}`,
+  description: `Description for Handicraft Item ${i + 1}`,
+  category: i % 2 === 0 ? "Arts & Crafts" : "Jewelry Accessories",
+  images: Array.from({ length: 5 }, (_, j) => `https://via.placeholder.com/300x200?text=Image+${i + 1}-${j + 1}`), // 5 images for each product
+}));
 
 const CartPage = () => {
   const navigate = useNavigate();
@@ -40,10 +50,13 @@ const CartPage = () => {
     navigate("/checkout");  // Navigate to checkout page (ensure you have this route defined)
   };
 
+  // Calculate total price
+  const total = cart.reduce((acc, item) => acc + parseInt(item.price.replace('Rs.', '').replace(',', '')) * item.quantity, 0);
+
   return (
     <div>
       <NavBar />
-      <div className="max-w-7xl mx-auto p-6 pt-40">
+      <div className="max-w-7xl mx-auto p-6 pt-40 pb-24">
         <h2 className="text-3xl font-bold mb-6">Your Cart</h2>
 
         {cart.length === 0 ? (
@@ -60,6 +73,8 @@ const CartPage = () => {
                 <div className="flex-grow">
                   <h3 className="text-lg font-semibold">{product.name}</h3>
                   <p className="text-blue-600 font-bold">{product.price}</p>
+                  <p className="text-blue-600 font-bold"> Total : Rs.{parseInt(product.price.replace('Rs.', '').replace(',', '')) * product.quantity}</p>
+
                   <div className="flex items-center space-x-2 text-gray-600">
                     <button
                       onClick={() => handleDecreaseQuantity(product.id)}
@@ -85,9 +100,10 @@ const CartPage = () => {
               </div>
             ))}
             <div className="mt-4 text-right">
+              <p className="text-xl font-semibold">Total: Rs.{total}</p>
               <button
                 onClick={handleCheckout}
-                className="bg-blue-500 text-white px-4 py-2 rounded"
+                className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
               >
                 Proceed to Checkout
               </button>
@@ -95,7 +111,32 @@ const CartPage = () => {
           </div>
         )}
       </div>
-      
+
+      {/* Suggested Products Section */}
+      <div className="max-w-7xl mx-auto p-6">
+        <h2 className="text-3xl font-bold mb-6 ">You might Also Like</h2>
+        <div className="grid grid-cols-4 gap-6">
+          {products.slice(0, 4).map((product) => (
+            <div key={product.id} className="border p-4 rounded-lg shadow w-full">
+              <img
+                src={product.images[0]} // Show the first image for each suggested product
+                alt={product.name}
+                className="w-full h-56 object-cover mb-2 rounded-lg"
+              />
+              <h3 className="text-lg font-semibold">{product.name}</h3>
+              <p className="text-blue-600 font-bold">{product.price}</p>
+              <p className="text-gray-600 text-sm">{product.description}</p>
+              <Link
+                to={`/product/${product.id}`}
+                className="text-teal-500 font-semibold mt-2 inline-block"
+              >
+                View Details
+              </Link>
+            </div>
+          ))}
+        </div>
+      </div>
+
       <Footer />
     </div>
   );

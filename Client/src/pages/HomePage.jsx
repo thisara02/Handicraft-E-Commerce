@@ -186,7 +186,7 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#E6EFF6] pt-16">
+    <div className="flex flex-col min-h-screen bg-[#E6EFF6] pt-16 pb-24">
       {/* Header (NavBar) */}
       <NavBar />
 
