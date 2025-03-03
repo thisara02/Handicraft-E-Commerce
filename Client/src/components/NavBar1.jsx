@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaShoppingCart, FaRegHeart,FaSearch } from 'react-icons/fa'; // Importing Cart and Wishlist icons
+import { FaShoppingCart, FaRegHeart} from 'react-icons/fa'; // Importing Cart and Wishlist icons
 const logo =  process.env.PUBLIC_URL + "/assets/logo.png";
 
 const NavBar = () => {
@@ -17,21 +17,21 @@ const NavBar = () => {
         </div>
 
          {/* Search Bar */}
-         <div className="flex items-center mx-4 relative">
+        <div className="flex items-center mx-4 relative">
           {/* Search Icon */}
-          <FaSearch className="absolute left-3 text-gray-500 text-lg" />
+          {/* <FaSearch className="absolute left-3 text-gray-500 text-lg" />
           <input
             type="text"
             placeholder="Search products..."
             className="border border-gray-400 px-10 py-2 w-full rounded-full  focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
+          /> */}
+          </div>
 
         {/* Navigation Links */}
                 {/* Navigation Links */}
         <div className="space-x-6 flex items-center">
           <a 
-            href="/" 
+            href="/home" 
             className="text-black relative group pb-1" // Add padding-bottom
           >
             Home
@@ -41,7 +41,7 @@ const NavBar = () => {
             ></span>
           </a>
           <a 
-            href="/about" 
+            href="/product" 
             className="text-black relative group pb-1"
           >
             Products

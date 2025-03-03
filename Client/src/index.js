@@ -13,6 +13,8 @@ import CustomerRegistrationPage from "./pages/CustomerRegistrationPage";
 import EventPage from "./pages/EventPage";
 import ProductPage from "./pages/ProductPage";
 import OffersPage from "./pages/OffersPage";
+import ProductDetailsPage from "./pages/ProductDetailsPage";
+
 
 import "./index.css"; // Tailwind CSS styles
 
@@ -31,6 +33,7 @@ root.render(
         <Route path="/events" element={<EventPage />} />
         <Route path="/product" element={<ProductPage />} />
         <Route path="/offers" element={<OffersPage />} />
+        <Route path="/product/:productId" element={<ProductDetailsPage />} />
 
       </Routes>
     </Router>
