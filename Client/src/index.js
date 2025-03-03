@@ -14,8 +14,7 @@ import EventPage from "./pages/EventPage";
 import ProductPage from "./pages/ProductPage";
 import OffersPage from "./pages/OffersPage";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
-
-
+import CartPage from "./pages/CartPage";
 import "./index.css"; // Tailwind CSS styles
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -34,6 +33,8 @@ root.render(
         <Route path="/product" element={<ProductPage />} />
         <Route path="/offers" element={<OffersPage />} />
         <Route path="/product/:productId" element={<ProductDetailsPage />} />
+        <Route path="/cart" element={<CartPage />} />
+
 
       </Routes>
     </Router>

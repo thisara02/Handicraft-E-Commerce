@@ -101,7 +101,7 @@ const ProductDetails = () => {
               <img
                 key={index}
                 src={image}
-                alt={`Related images for the selected product ${index + 1}`}
+                alt={`Related images for the selected ${index + 1}`}
                 className="w-full h-56 object-cover rounded-lg"
               />
             ))}

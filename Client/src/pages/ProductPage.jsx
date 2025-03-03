@@ -17,28 +17,36 @@ const itemsPerPage = 15;
 const totalPages = 12; // Fixed number of pages
 
 const ProductPage = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [priceRange, setPriceRange] = useState(500000);
   const [currentPage, setCurrentPage] = useState(1);
-  const [cart, setCart] = useState([]);
+
+  // Load cart from localStorage
+  const loadCartFromStorage = () => {
+    const cart = localStorage.getItem("cart");
+    return cart ? JSON.parse(cart) : [];
+  };
+
+  const [cart, setCart] = useState(loadCartFromStorage);
 
   // Paginate products
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedProducts = products.slice(startIndex, startIndex + itemsPerPage);
 
   const handleAddToCart = (product) => {
-    setCart((prevCart) => {
-      const productExists = prevCart.find((item) => item.id === product.id);
-      if (productExists) {
-        return prevCart.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-      }
-      return [...prevCart, { ...product, quantity: 1 }];
-    });
+    const updatedCart = [...cart];
+    const existingProduct = updatedCart.find((item) => item.id === product.id);
+
+    if (existingProduct) {
+      existingProduct.quantity += 1;
+    } else {
+      updatedCart.push({ ...product, quantity: 1 });
+    }
+
+    setCart(updatedCart);
+    // Save to localStorage
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
   const handleProductClick = (productId) => {
@@ -49,7 +57,6 @@ const ProductPage = () => {
     <div>
       <NavBar />
       <div className="max-w-7xl mx-auto p-6">
-        
         {/* Search Bar & Filter Button */}
         <div className="flex items-center justify-between mb-6 pt-40">
           <div className="relative w-full max-w-lg">
@@ -122,27 +129,27 @@ const ProductPage = () => {
 
         {/* Product Grid - 4 items per row, 6 rows per page */}
         <div className="grid grid-cols-4 gap-6">
-        {paginatedProducts.map((product) => (
-          <div key={product.id} className="border p-4 rounded-lg shadow w-full">
-            <img
-              src={product.image}
-              alt={product.name}
-              className="w-full h-56 object-cover mb-2 rounded-lg cursor-pointer"
-              onClick={() => handleProductClick(product.id)}
-            />
-            <h3 className="text-lg font-semibold">{product.name}</h3>
-            <p className="text-blue-600 font-bold">{product.price}</p>
-            <p className="text-gray-600 text-sm">{product.description}</p>
-            <p className="text-gray-500 text-xs mt-2">{product.category}</p>
-            <button
-              onClick={() => handleAddToCart(product)}
-              className="mt-4 bg-teal-500 text-white px-4 py-2 rounded w-full flex items-center justify-center"
-            >
-              <FaCartPlus className="mr-2" /> Add to Cart
-            </button>
-          </div>
-            ))}
-         </div>
+          {paginatedProducts.map((product) => (
+            <div key={product.id} className="border p-4 rounded-lg shadow w-full">
+              <img
+                src={product.image}
+                alt={product.name}
+                className="w-full h-56 object-cover mb-2 rounded-lg cursor-pointer"
+                onClick={() => handleProductClick(product.id)}
+              />
+              <h3 className="text-lg font-semibold">{product.name}</h3>
+              <p className="text-blue-600 font-bold">{product.price}</p>
+              <p className="text-gray-600 text-sm">{product.description}</p>
+              <p className="text-gray-500 text-xs mt-2">{product.category}</p>
+              <button
+                onClick={() => handleAddToCart(product)}
+                className="mt-4 bg-teal-500 text-white px-4 py-2 rounded w-full flex items-center justify-center"
+              >
+                <FaCartPlus className="mr-2" /> Add to Cart
+              </button>
+            </div>
+          ))}
+        </div>
 
         {/* Cart Display */}
         <div className="mt-8 text-right">
