@@ -16,6 +16,7 @@ import OffersPage from "./pages/OffersPage";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
 import CartPage from "./pages/CartPage";
 import WhishlistPage from "./pages/WhishlistPage";
+import OrderConfirmationPage from "./pages/OrderConfirmationPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import "./index.css"; // Tailwind CSS styles
 
@@ -37,8 +38,8 @@ root.render(
         <Route path="/product/:productId" element={<ProductDetailsPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/whish" element={<WhishlistPage />} />
+        <Route path="/confirm" element={<OrderConfirmationPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
-
       </Routes>
     </Router>
   </React.StrictMode>
