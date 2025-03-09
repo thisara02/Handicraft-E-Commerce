@@ -1,7 +1,7 @@
 import React from "react";
 import NavBar from '../components/NavBar1';
 import Footer from '../components/Footer1';
-const Img3 = process.env.PUBLIC_URL + "/assets/img5.png";
+const Img3 = process.env.PUBLIC_URL + "/assets/crafts.png";
 
 const CustomerLoginPage = () => {
     return (
@@ -10,7 +10,7 @@ const CustomerLoginPage = () => {
         <NavBar />
   
         {/* Main Content */}
-        <div className="flex flex-grow items-center justify-center px-8 py-12 bg-white">
+        <div className="flex flex-grow items-center justify-center pt-40 px-8 py-12 bg-white">
           <div className="flex w-full max-w-5xl bg-[#DDE8F0] shadow-lg rounded-lg overflow-hidden">
             {/* Left Side - Image Grid */}
             <div className="w-1/2 p-6 hidden md:block">

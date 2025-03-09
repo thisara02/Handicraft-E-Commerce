@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import NavBar from '../components/NavBar1';
 import Footer from '../components/Footer1';
-const Img2 =  process.env.PUBLIC_URL + "/assets/img5.png";
+const Img2 =  process.env.PUBLIC_URL + "/assets/vendors.png";
 
 function VendorLogin() {
   const [email, setEmail] = useState("");
@@ -19,7 +19,7 @@ function VendorLogin() {
       <NavBar />
 
       {/* Main Content */}
-      <div className="flex flex-grow items-center justify-center px-8 py-12 bg-white">
+      <div className="flex flex-grow items-center justify-center pt-40 px-8 py-12 bg-white">
           <div className="flex w-full max-w-5xl bg-[#F0EADD] shadow-lg rounded-2xl overflow-hidden">
             {/* Left Side - Image Grid */}
             <div className="w-1/2 p-6 hidden md:block">
