@@ -28,10 +28,10 @@ root.render(
       <Routes>
       <Route path="" element={<HomePage />} />
         <Route path="/home" element={<HomePage />} />
-        <Route path="/vendor-login" element={<VendorLoginPage />} />
-        <Route path="/vendor-register" element={<VendorRegistrationPage />} />
-        <Route path="/customer-login" element={<CustomerLoginPage />} />
-        <Route path="/customer-register" element={<CustomerRegistrationPage />} />
+        <Route path="/vendor/login" element={<VendorLoginPage />} />
+        <Route path="/vendor/register" element={<VendorRegistrationPage />} />
+        <Route path="/login" element={<CustomerLoginPage />} />
+        <Route path="/register" element={<CustomerRegistrationPage />} />
         <Route path="/events" element={<EventPage />} />
         <Route path="/product" element={<ProductPage />} />
         <Route path="/offers" element={<OffersPage />} />

@@ -67,7 +67,7 @@ function VendorLogin() {
                 </button>
               </form>
               <p className="mt-3 text-center">
-                New Customer? <a href="/vendor-register" className="text-[#458ae4] hover:underline">Register Here</a>
+                New Customer? <a href="/vendor/register" className="text-[#458ae4] hover:underline">Register Here</a>
               </p>
             </div>
           </div>

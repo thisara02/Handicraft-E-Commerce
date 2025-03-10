@@ -55,7 +55,7 @@ const CustomerLoginPage = () => {
                 </button>
               </form>
               <p className="mt-3 text-center">
-                New Customer? <a href="/customer-register" className="text-[#228b86] hover:underline">Register Here</a>
+                New Customer? <a href="/register" className="text-[#228b86] hover:underline">Register Here</a>
               </p>
             </div>
           </div>

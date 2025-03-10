@@ -176,7 +176,7 @@ const CustomerRegistrationPage = () => {
 
           <p className="mt-2 text-center">
             Already have an account?{" "}
-            <a href="/customer-login" className="text-green-500 hover:underline">
+            <a href="/login" className="text-green-500 hover:underline">
               Login
             </a>
           </p>

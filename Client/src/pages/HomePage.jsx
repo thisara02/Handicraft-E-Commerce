@@ -301,7 +301,7 @@ const HomePage = () => {
           />
           {/* Floating Button */}
           <button
-            onClick={() => navigate("/customer-register")} // Navigate to the register page
+            onClick={() => navigate("/register")} // Navigate to the register page
             className="absolute bottom-8 right-8 bg-[#0b4d3c] text-white py-3 px-6 rounded-lg shadow-lg hover:bg-blue-700 transition-colors"
           >
             Register Now
@@ -353,7 +353,7 @@ const HomePage = () => {
           <h1 className="absolute top-16 left-8 text-[#3f2626] text-2xl font-serif font-bold ">Every sale starts with a single step</h1>
           <h1 className="absolute top-24 left-8 text-[#3f2626] text-2xl font-serif font-bold ">Exapnd your Items towards Global</h1>
           <button
-            onClick={() => navigate("/vendor-register")} // Navigate to the register page
+            onClick={() => navigate("/vendor/register")} // Navigate to the register page
             className="absolute top-40 left-8 bg-[#302213] text-white py-3 px-6 rounded-lg shadow-lg hover:bg-blue-700 transition-colors"
           >
             Click Here to Register Now

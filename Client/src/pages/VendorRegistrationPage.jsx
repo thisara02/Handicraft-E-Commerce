@@ -224,7 +224,7 @@ const VendorRegistrationPage = () => {
 
           <p className="mt-2 text-center">
             Already have an account?{" "}
-            <a href="/vendor-login" className="text-green-500 hover:underline">
+            <a href="/vendor/login" className="text-green-500 hover:underline">
               Login
             </a>
           </p>
