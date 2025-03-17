@@ -20,9 +20,10 @@ const Footer = () => {
           <h3 className="text-lg font-medium mb-4">Support</h3>
           <ul>
             <li className="mb-2">Serendib Galleria</li>
+            <li className="mb-2">Contatct Support:</li>
             <li className="mb-2">
-              <a href="mailto:supportgaleeria@gmail.com" className="text-gray-300 hover:text-white">
-                supportgaleeria@gmail.com
+              <a href="mailto:support.sgaleria@gmail.com" className="text-gray-300 hover:text-white">
+                support.sgaleria@gmail.com
               </a>
             </li>
             <li className="mb-2">
@@ -38,8 +39,8 @@ const Footer = () => {
           <h3 className="text-lg font-medium mb-4">Account</h3>
           <ul>
             <li className="mb-2">
-              <a href="/my-account" className="text-gray-300 hover:text-white">
-                My Account
+              <a href="/product" className="text-gray-300 hover:text-white">
+                Find Products
               </a>
             </li>
             <li className="mb-2">
@@ -53,13 +54,13 @@ const Footer = () => {
               </a>
             </li>
             <li className="mb-2">
-              <a href="/wishlist" className="text-gray-300 hover:text-white">
+              <a href="/whish" className="text-gray-300 hover:text-white">
                 Wishlist
               </a>
             </li>
             <li className="mb-2">
-              <a href="/shop" className="text-gray-300 hover:text-white">
-                Shop
+              <a href="/events" className="text-gray-300 hover:text-white">
+                Events
               </a>
             </li>
           </ul>
