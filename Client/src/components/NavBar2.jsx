@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
-import React from 'react';
-import { FaShoppingCart, FaRegHeart} from 'react-icons/fa'; // Importing Cart and Wishlist icons
+import React from 'react'; // Importing Cart and Wishlist icons
 const logo =  process.env.PUBLIC_URL + "/assets/logo.png";
 
 const NavBar = () => {
@@ -9,7 +8,7 @@ const NavBar = () => {
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo Section */}
         <div className="flex items-center space-x-1">
-        <Link to="/">
+          <Link to="/">
           <img
            src={logo}
             alt="Serendib Galleria"
@@ -17,7 +16,6 @@ const NavBar = () => {
           />
           </Link>
            <div className="text-black text-4xl font-bold font-arial">Serendib Galleria</div>
-        
         </div>
 
          {/* Search Bar */}
@@ -34,38 +32,19 @@ const NavBar = () => {
         {/* Navigation Links */}
                 {/* Navigation Links */}
         <div className="space-x-6 flex items-center">
-          <a 
-            href="/home" 
-            className="text-black relative group pb-1" // Add padding-bottom
-          >
-            Home
-            <span 
-              className="absolute left-0 bottom-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"
-              
-            ></span>
-          </a>
-          <a 
-            href="/product" 
+        <a 
+            href="/vendor/profile" 
             className="text-black relative group pb-1"
           >
-            Products
+            Profile
             <span 
+            
               className="absolute left-0 bottom-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"
               
             ></span>
           </a>
           <a 
-            href="/offers" 
-            className="text-black relative group pb-1"
-          >
-            Offers
-            <span 
-              className="absolute left-0 bottom-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"
-              
-            ></span>
-          </a>
-          <a 
-            href="/events" 
+            href="/vendor/event" 
             className="text-black relative group pb-1"
           >
             Events
@@ -75,28 +54,7 @@ const NavBar = () => {
               
             ></span>
           </a>
-        </div>
-        
-        {/* Cart and Wishlist Icons */}
-        <div className="flex space-x-6 items-center">
-          <a 
-            href="/cart" 
-            className="text-black relative group pb-1"
-          >
-            <FaShoppingCart className="text-xl" />
-            <span 
-              className="absolute left-0 bottom-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"
-            ></span>
-          </a>
-          <a 
-            href="/whish" 
-            className="text-black relative group pb-1"
-          >
-            <FaRegHeart className="text-xl" />
-            <span 
-              className="absolute left-0 bottom-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"
-            ></span>
-          </a>
+          
         </div>
       </div>
     </nav>

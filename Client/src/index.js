@@ -20,6 +20,8 @@ import OrderConfirmationPage from "./pages/OrderConfirmationPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import CustomerEditProfilePage from "./pages/CustomerEditProfilePage";
 import VendorProfilePage from "./pages/VendorProfilePage";
+import VendorEventPage from "./pages/VendorEventPage";
+import WelcomePage from "./pages/WelcomePage";
 import "./index.css"; // Tailwind CSS styles
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -28,7 +30,8 @@ root.render(
     <Router>
     <ScrollToTop />
       <Routes>
-      <Route path="" element={<VendorProfilePage  />} />
+      <Route path="" element={<WelcomePage  />} />
+        <Route path="/welcome" element={<WelcomePage />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/vendor/login" element={<VendorLoginPage />} />
         <Route path="/vendor/register" element={<VendorRegistrationPage />} />
@@ -44,6 +47,7 @@ root.render(
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/editprofile" element={<CustomerEditProfilePage />} />
         <Route path="/vendor/profile" element={<VendorProfilePage />} />
+        <Route path="/vendor/event" element={<VendorEventPage />} />
       </Routes>
     </Router>
   </React.StrictMode>

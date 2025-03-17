@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "react-phone-input-2/lib/style.css";
-import NavBar from '../components/NavBar1';
+import NavBar from '../components/NavBar2';
 import Footer from '../components/Footer1';
 const Img1 =  process.env.PUBLIC_URL + "/assets/vendor-reg.jpg";
 
