@@ -44,7 +44,7 @@ const Footer = () => {
               </a>
             </li>
             <li className="mb-2">
-              <a href="/login" className="text-gray-300 hover:text-white">
+              <a href="/welcome" className="text-gray-300 hover:text-white">
                 Login / Register
               </a>
             </li>

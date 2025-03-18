@@ -23,6 +23,7 @@ import VendorProfilePage from "./pages/VendorProfilePage";
 import VendorEventPage from "./pages/VendorEventPage";
 import WelcomePage from "./pages/WelcomePage";
 import "./index.css"; // Tailwind CSS styles
+import AdminLoginPage from './pages/Admin/AdminLoginPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -48,6 +49,7 @@ root.render(
         <Route path="/editprofile" element={<CustomerEditProfilePage />} />
         <Route path="/vendor/profile" element={<VendorProfilePage />} />
         <Route path="/vendor/event" element={<VendorEventPage />} />
+        <Route path="/admin/login" element={<AdminLoginPage />} />
       </Routes>
     </Router>
   </React.StrictMode>
