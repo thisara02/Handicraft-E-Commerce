@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+const logo =  process.env.PUBLIC_URL + "/assets/logo.png";
 
 const AdminLoginPage = () => {
   const [username, setUsername] = useState('');
@@ -50,14 +51,19 @@ const AdminLoginPage = () => {
   }
 
   return (
-    <div className="flex items-center justify-center w-full h-screen bg-blue-600">
+    <div className="flex items-center justify-center w-full h-screen bg-cover bg-center relative flex-co " style={{
+      backgroundImage: "url('/assets/c-3.jpg')",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+    }}>
+      <div className="absolute inset-0 bg-black bg-opacity-85"></div>
       {/* Login Container with ash color background */}
-      <div className="bg-gray-200 rounded-lg shadow-lg p-8 w-full max-w-md">
+      <div className="bg-gray-200 rounded-lg shadow-lg p-8 w-full max-w-md relative">
         {/* Logo */}
         <div className="mb-8 text-center">
           {/* Replace with actual image when uploaded */}
           <img 
-            src="/api/placeholder/150/80" 
+            src={logo} 
             alt="S|G SERENDIR GALLERIA" 
             className="mx-auto mb-2"
           />

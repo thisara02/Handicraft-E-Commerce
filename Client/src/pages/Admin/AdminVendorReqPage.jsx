@@ -1,9 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { CheckCircle, XCircle } from 'lucide-react';
 import { Home, Users, ShoppingCart, Calendar, Package, LogOut } from 'lucide-react';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const logo =  process.env.PUBLIC_URL + "/assets/logo.png";
 
+
 const AdminVendorReqPage = () => {
+
+  const [vendors, setVendors] = useState([
+    { id: 1, name: 'John Doe', business: 'Handmade Crafts', mobile: '1234567890', address: 'Colombo, Sri Lanka', nic: '987654321V', email: 'john@example.com', description: 'Handmade wooden crafts', productTypes: 'Wooden, Handmade' },
+    { id: 2, name: 'Jane Smith', business: 'Eco Bags', mobile: '0987654321', address: 'Kandy, Sri Lanka', nic: '123456789V', email: 'jane@example.com', description: 'Eco-friendly bags', productTypes: 'Cloth, Reusable' },
+  ]);
+
+  const handleAction = (id, action) => {
+    setVendors(vendors.filter(vendor => vendor.id !== id));
+  
+    if (action === 'Approved') {
+      toast.success(`Vendor ${action} successfully!`, { autoClose: 1000 });
+    } else if (action === 'Rejected') {
+      toast.error(`Vendor ${action} successfully!`, { autoClose: 1000 });
+    }
+  };
+
   return (
     <div className="flex min-h-screen bg-gray-100">
       {/* Sidebar */}
@@ -54,20 +74,62 @@ const AdminVendorReqPage = () => {
       <div className="flex-1">
         <header className="bg-white shadow">
           <div className="max-w-7xl mx-auto py-6 px-4">
-            <h1 className="text-3xl font-bold text-gray-900">Vendor Registrations Requests</h1>
+            <h1 className="text-3xl font-bold text-gray-900">Vendor Registration Requests</h1>
           </div>
         </header>
         <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
           <div className="px-4 py-6 sm:px-0">
-            <div className="border-4 border-dashed border-gray-200 rounded-lg h-96 p-4 flex items-center justify-center">
-              <div className="text-center">
-                <h2 className="text-xl font-semibold mb-2">Welcome to your dashboard</h2>
-                <p className="text-gray-500">This is where you would manage your application.</p>
-              </div>
+            <div className="bg-white shadow-md rounded-lg p-6">
+              <table className="w-full border-collapse border border-gray-300">
+                <thead>
+                  <tr className="bg-gray-100">
+                    <th className="border border-gray-300 p-2">Vendor Name</th>
+                    <th className="border border-gray-300 p-2">Business Name</th>
+                    <th className="border border-gray-300 p-2">Mobile</th>
+                    <th className="border border-gray-300 p-2">Address</th>
+                    <th className="border border-gray-300 p-2">NIC</th>
+                    <th className="border border-gray-300 p-2">Email</th>
+                    <th className="border border-gray-300 p-2">Description</th>
+                    <th className="border border-gray-300 p-2">Product Types</th>
+                    <th className="border border-gray-300 p-2">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {vendors.map(vendor => (
+                    <tr key={vendor.id} className="border border-gray-300">
+                      <td className="border border-gray-300 p-2">{vendor.name}</td>
+                      <td className="border border-gray-300 p-2">{vendor.business}</td>
+                      <td className="border border-gray-300 p-2">{vendor.mobile}</td>
+                      <td className="border border-gray-300 p-2">{vendor.address}</td>
+                      <td className="border border-gray-300 p-2">{vendor.nic}</td>
+                      <td className="border border-gray-300 p-2">{vendor.email}</td>
+                      <td className="border border-gray-300 p-2">{vendor.description}</td>
+                      <td className="border border-gray-300 p-2">{vendor.productTypes}</td>
+                      <td className="border border-gray-300 p-2 flex gap-2 justify-center">
+                        <button
+                          className="text-green-600 hover:text-green-800"
+                          onClick={() => handleAction(vendor.id, 'Approved')}
+                        >
+                          <CheckCircle className="w-5 h-5" />
+                        </button>
+                        <button
+                          className="text-red-600 hover:text-red-800"
+                          onClick={() => handleAction(vendor.id, 'Rejected')}
+                        >
+                          <XCircle className="w-5 h-5" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         </main>
       </div>
+
+      {/* Toast Container for Notifications */}
+      <ToastContainer />
     </div>
   );
 };
