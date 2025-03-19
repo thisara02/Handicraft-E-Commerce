@@ -22,8 +22,13 @@ import CustomerEditProfilePage from "./pages/CustomerEditProfilePage";
 import VendorProfilePage from "./pages/VendorProfilePage";
 import VendorEventPage from "./pages/VendorEventPage";
 import WelcomePage from "./pages/WelcomePage";
-import "./index.css"; // Tailwind CSS styles
 import AdminLoginPage from './pages/Admin/AdminLoginPage';
+import AdminDashboardPage from './pages/Admin/AdminDashboardPage';
+import AdminVendorReqPage from './pages/Admin/AdminVendorReqPage';
+import AdminOrdersPage from './pages/Admin/AdminOrdersPage';
+import AdminEventPage from './pages/Admin/AdminEventPage';
+import AdminProductPage from './pages/Admin/AdminProductPage';
+import "./index.css"; // Tailwind CSS styles
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -50,6 +55,11 @@ root.render(
         <Route path="/vendor/profile" element={<VendorProfilePage />} />
         <Route path="/vendor/event" element={<VendorEventPage />} />
         <Route path="/admin/login" element={<AdminLoginPage />} />
+        <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+        <Route path="/admin/vendor-requests" element={<AdminVendorReqPage />} />
+        <Route path="/admin/orders" element={<AdminOrdersPage />} />
+        <Route path="/admin/events" element={<AdminEventPage />} />
+        <Route path="/admin/products" element={<AdminProductPage />} />
       </Routes>
     </Router>
   </React.StrictMode>
