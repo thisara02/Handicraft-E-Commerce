@@ -21,6 +21,7 @@ import CheckoutPage from "./pages/CheckoutPage";
 import CustomerEditProfilePage from "./pages/CustomerEditProfilePage";
 import VendorProfilePage from "./pages/VendorProfilePage";
 import VendorEventPage from "./pages/VendorEventPage";
+import VendorOrdersPage from "./pages/VendorOrdersPage";
 import WelcomePage from "./pages/WelcomePage";
 import AdminLoginPage from './pages/Admin/AdminLoginPage';
 import AdminDashboardPage from './pages/Admin/AdminDashboardPage';
@@ -54,6 +55,7 @@ root.render(
         <Route path="/editprofile" element={<CustomerEditProfilePage />} />
         <Route path="/vendor/profile" element={<VendorProfilePage />} />
         <Route path="/vendor/event" element={<VendorEventPage />} />
+        <Route path="/vendor/orders" element={<VendorOrdersPage />} />
         <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
         <Route path="/admin/vendor-requests" element={<AdminVendorReqPage />} />
