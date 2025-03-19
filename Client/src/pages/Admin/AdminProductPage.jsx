@@ -4,6 +4,7 @@ import { Home, Users, ShoppingCart, Calendar, Package, LogOut } from 'lucide-rea
 const logo =  process.env.PUBLIC_URL + "/assets/logo.png";
 
 const AdminProductPage = () => {
+
   return (
     <div className="flex min-h-screen bg-gray-100">
       {/* Sidebar */}
@@ -54,7 +55,7 @@ const AdminProductPage = () => {
       <div className="flex-1">
         <header className="bg-white shadow">
           <div className="max-w-7xl mx-auto py-6 px-4">
-            <h1 className="text-3xl font-bold text-gray-900">Product Request Approval</h1>
+            <h1 className="text-3xl font-bold text-gray-900">Event Management</h1>
           </div>
         </header>
         <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
