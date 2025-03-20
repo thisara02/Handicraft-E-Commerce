@@ -17,7 +17,7 @@ const AdminLoginPage = () => {
     setError('');
     
     // Validate credentials (admin/admin)
-    if (username === 'admin' && password === 'admin') {
+    if (username === 'admin' && password === 'admin@123') {
       console.log('Login successful!');
       setIsLoggedIn(true);
       
@@ -35,7 +35,7 @@ const AdminLoginPage = () => {
   // Show success message if logged in but timer not yet elapsed
   if (isLoggedIn) {
     return (
-      <div className="flex items-center justify-center w-full h-screen bg-blue-600">
+      <div className="flex items-center justify-center w-full h-screen bg-[#e0e0e0]">
         <div className="bg-white p-8 rounded text-center">
           <div className="flex justify-center mb-4 text-green-500">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">

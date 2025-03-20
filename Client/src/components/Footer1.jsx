@@ -23,7 +23,7 @@ const Footer = () => {
             <li className="mb-2">Contatct Support:</li>
             <li className="mb-2">
               <a href="mailto:support.sgaleria@gmail.com" className="text-gray-300 hover:text-white">
-                support.sgaleria@gmail.com
+                serendibgalleria@gmail.com
               </a>
             </li>
             <li className="mb-2">

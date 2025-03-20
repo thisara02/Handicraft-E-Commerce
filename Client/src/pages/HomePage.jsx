@@ -189,12 +189,12 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#E6EFF6] pt-16">
+    <div className="flex flex-col min-h-screen bg-[#E6EFF6] pt-16 pb-40">
       {/* Header (NavBar) */}
       <NavBar />
 
       {/* Main Content */}
-      <div className="flex flex-col items-center justify-center pt-20 mt-10">
+      <div className="flex flex-col items-center justify-center flex-grow pt-20 mt-10">
         {/* Image Carousel */}
         <div className="relative w-full max-w-5xl overflow-hidden rounded-lg">
           <div
