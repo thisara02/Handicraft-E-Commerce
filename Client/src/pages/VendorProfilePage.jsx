@@ -73,7 +73,7 @@ const VendorProfilePage = () => {
 
       {/* Main Content */}
       <div className="flex-grow pt-40">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header section with company info */}
           <div className="relative flex items-start gap-4 mb-8 bg-white p-6 rounded-lg shadow">
       {/* Edit Button (Top-Right) */}

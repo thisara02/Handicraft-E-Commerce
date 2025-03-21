@@ -189,14 +189,14 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#E6EFF6] pt-16 pb-40">
+    <div className="flex flex-col min-h-screen bg-[#E6EFF6] pt-16">
       {/* Header (NavBar) */}
       <NavBar />
 
       {/* Main Content */}
       <div className="flex flex-col items-center justify-center flex-grow pt-20 mt-10">
         {/* Image Carousel */}
-        <div className="relative w-full max-w-5xl overflow-hidden rounded-lg">
+        <div className="relative w-full max-w-6xl overflow-hidden rounded-lg">
           <div
             className="flex transition-transform duration-1000 ease-in-out"
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -225,7 +225,7 @@ const HomePage = () => {
         </div>
 
         {/* About Section */}
-        <div className="bg-[#0396A6] text-white p-10 max-w-5xl mt-10 rounded-lg shadow-lg flex items-center mb-20">
+        <div className="bg-[#0396A6] text-white p-10 max-w-6xl mt-10 rounded-lg shadow-lg flex items-center mb-20">
           <div className="w-2/3 pr-6">
             <h2 className="text-3xl font-bold">
               Bringing the Heart of Sri Lanka to You
@@ -255,7 +255,7 @@ const HomePage = () => {
         </div>
 
         {/* Best Selling Products Section - TALLER */}
-        <div className="bg-blue-200 p-8 rounded-2xl w-full max-w-5xl mb-8">
+        <div className="bg-blue-200 p-8 rounded-2xl w-full max-w-6xl mb-8">
           <div className="bg-white rounded-2xl p-6 mb-6">
             <div className="text-teal-500 text-lg font-bold">This Month</div>
             <h2 className="text-3xl font-bold">Best Selling Products</h2>
@@ -293,7 +293,7 @@ const HomePage = () => {
             </div>
           </div>
         </div>
-        <div className="relative w-full max-w-5xl mb-20">
+        <div className="relative w-full max-w-6xl mb-20">
           <img
             src={process.env.PUBLIC_URL + "/assets/HomePage.jpeg"} // Replace with your image path
             alt="Promotional banner for Serendib Galleria"
@@ -308,7 +308,7 @@ const HomePage = () => {
           </button>
         </div>
 
-        <div className="bg-blue-200 p-8 rounded-2xl w-full max-w-5xl mb-8">
+        <div className="bg-blue-200 p-8 rounded-2xl w-full max-w-6xl mb-8">
           <div className="bg-white rounded-2xl p-6 mb-6">
             <div className="text-teal-500 text-lg font-bold">Our Main</div>
             <h2 className="text-3xl font-bold">Categories</h2>
@@ -343,7 +343,7 @@ const HomePage = () => {
 
         </div>
 
-        <div className="relative w-full max-w-5xl mb-20">
+        <div className="relative w-full max-w-6xl mb-20">
           <img
             src={process.env.PUBLIC_URL + "/assets/HP-4.jpg"} // Replace with your image path
             alt="vendors Registration Section for Serendib Galleria"
@@ -362,7 +362,6 @@ const HomePage = () => {
       </div>
       {/* Footer */}
       <Footer />
-      
     </div>
   );
 };
