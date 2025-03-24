@@ -30,6 +30,7 @@ import AdminOrdersPage from './pages/Admin/AdminOrdersPage';
 import AdminEventPage from './pages/Admin/AdminEventPage';
 import AdminProductPage from './pages/Admin/AdminProductPage';
 import OTPVerifyPage from './pages/OTPVerifyPage';
+import VendorReviewPage from './pages/VendorReviewPage';
 import "./index.css"; // Tailwind CSS styles
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -60,6 +61,7 @@ root.render(
         <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
         <Route path="/admin/vendor-requests" element={<AdminVendorReqPage />} />
+        <Route path="/vendor/review" element={<VendorReviewPage />} />
         <Route path="/admin/orders" element={<AdminOrdersPage />} />
         <Route path="/admin/events" element={<AdminEventPage />} />
         <Route path="/admin/products" element={<AdminProductPage />} />

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar1";
 import Footer from "../components/Footer1";
 
 const OtpVerifyPage = () => {
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const [otp, setOtp] = useState("");
 
   const handleVerify = () => {
@@ -23,7 +23,7 @@ const OtpVerifyPage = () => {
       <NavBar />
 
       {/* Main Content */}
-      <div className="flex flex-col items-center justify-center pt-20 mt-10">
+      <div className="flex flex-col items-center justify-center flex-1 pt-20 mt-10">
         <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
           <h2 className="text-2xl font-bold text-center mb-4">OTP Verification</h2>
           <p className="text-center text-gray-600 mb-6">
