@@ -1,14 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import NavBar from "../components/NavBar2";
+import NavBar from "../components/NavBar1";
 import Footer from "../components/Footer1";
 import { FaEdit, FaTimes, FaCamera, FaTrash } from "react-icons/fa";
-import AddProductModal from "../components/AddProductModal"; 
-import EditProductModal from "../components/EditProductModal"; 
+import AddProductModal from "../components/AddProductModal";
+import EditProductModal from "../components/EditProductModal";
 
 const VendorProfilePage = () => {
-  const [companyLogo, setCompanyLogo] = useState("assets/c-6.jpg");
+  const [vendor, setVendor] = useState("");
+  const storedVendor = JSON.parse(localStorage.getItem("vendor"));
+
+  const [companyLogo, setCompanyLogo] = useState(
+    vendor.profile_picture
+      ? `http://127.0.0.1:8000/${vendor.profile_picture}`
+      : null
+  );
   const [isEditing, setIsEditing] = useState(false);
   const [companyName, setCompanyName] = useState("Ceylon Crafts LK");
   const [description, setDescription] = useState(
@@ -19,11 +26,24 @@ const VendorProfilePage = () => {
   const [isAddProductModalOpen, setIsAddProductModalOpen] = useState(false);
   const [isEditProductModalOpen, setIsEditProductModalOpen] = useState(false); // Make sure this is defined correctly
 
-
   const navigate = useNavigate();
 
+  // Load customer from localStorage
+  useEffect(() => {
+    //const storedToken = localStorage.getItem("token");
+
+    if (storedVendor) {
+      setVendor(storedVendor);
+
+      setCompanyName(storedVendor.business_name);
+      setDescription(storedVendor.product_description);
+      setPhoneNumber(storedVendor.mobile_number);
+      setCompanyLogo(`http://127.0.0.1:8000/${storedVendor.profile_picture}`);
+    }
+  }, []);
+
   const handleCardClick = (productId) => {
-    navigate(`/vendor/review/`);
+    navigate(`/vendor/review/${productId}`);
   };
 
   const handleDeleteProduct = (id) => {
@@ -34,12 +54,35 @@ const VendorProfilePage = () => {
       showCancelButton: true,
       confirmButtonColor: "#d33",
       cancelButtonColor: "#3085d6",
-      confirmButtonText: "Yes, delete it!"
-    }).then((result) => {
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        // Remove product from the list
-        setProducts((prevProducts) => prevProducts.filter((p) => p.id !== id));
-        Swal.fire("Deleted!", "The product has been deleted.", "success");
+        try {
+          // Send a DELETE request to the Vendor Controller endpoint
+          const response = await fetch(`http://127.0.0.1:8000/api/vendor/delete-product/${id}`, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ vendor_id: storedVendor.id }), // Optional: Pass vendor ID for validation
+          });
+  
+          const data = await response.json();
+  
+          if (data.success) {
+            // Remove the product from the frontend state
+            setProducts((prevProducts) => prevProducts.filter((p) => p.id !== id));
+  
+            // Show success notification
+            Swal.fire("Deleted!", "The product has been deleted.", "success");
+          } else {
+            // Handle backend errors
+            Swal.fire("Error", data.message || "Failed to delete the product.", "error");
+          }
+        } catch (error) {
+          console.error("Error deleting product:", error);
+          Swal.fire("Error", "An error occurred while deleting the product.", "error");
+        }
       }
     });
   };
@@ -47,25 +90,120 @@ const VendorProfilePage = () => {
   const handleAddNewItem = () => {
     setIsAddProductModalOpen(true);
   };
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
-  const handleEditItem = () => {
+  const handleEditItem = (productId) => {
+    const product = products.find((p) => p.id === productId);
+    setSelectedProduct(product);
     setIsEditProductModalOpen(true);
   };
 
   // Sample product data
-  const [products, setProducts] = useState([
-    { id: 1, image: "/assets/c-1.jpg", price: "Rs. 3,500" },
-    { id: 2, image: "/assets/c-2.jpg", price: "Rs. 5,200" },
-    { id: 3, image: "/assets/c-3.jpg", price: "Rs. 2,800" },
-    { id: 4, image: "/assets/c-4.jpg", price: "Rs. 4,100" },
-    { id: 5, image: "/assets/c-5.png", price: "Rs. 1,950" },
-    { id: 6, image: "/assets/c-6.jpg", price: "Rs. 3,200" },
-  ]);
+  const [products, setProducts] = useState([]);
 
-  const handleSaveChanges = () => {
-    setBackup({ companyName, description, phoneNumber });
-    setIsEditing(false);
-    Swal.fire("Saved!", "Your changes have been saved.", "success");
+  useEffect(() => {
+    const fetchVendorProducts = async () => {
+      try {
+        const response = await fetch(
+          `http://127.0.0.1:8000/api/vendor/products/${storedVendor.id}`
+        );
+        const data = await response.json();
+        if (data.success) {
+          setProducts(data.products); // expects products to be an array
+        } else {
+          console.error("Failed to fetch products");
+        }
+      } catch (err) {
+        console.error("Error fetching vendor products:", err);
+      }
+    };
+
+    fetchVendorProducts();
+  }, []);
+
+  const handleSaveChanges = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("id", vendor.id);
+      formData.append("business_name", companyName);
+      formData.append("mobile_number", phoneNumber);
+      formData.append("product_description", description);
+
+      // If companyLogo is updated and is a file (base64 string check or similar)
+      if (companyLogo && companyLogo.startsWith("data:image")) {
+        const blob = await fetch(companyLogo).then((res) => res.blob());
+        const file = new File([blob], "company_logo.png", { type: blob.type });
+        formData.append("profile_picture", file);
+      }
+
+      //const vendorData = JSON.parse(localStorage.getItem("vendor"));
+
+      const response = await fetch("http://127.0.0.1:8000/api/vendor/update", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        Swal.fire("Saved!", "Your changes have been saved.", "success");
+        setVendor(data.vendor);
+        localStorage.setItem("vendor", JSON.stringify(data.vendor));
+        setBackup({ companyName, description, phoneNumber });
+        setIsEditing(false);
+      } else {
+        Swal.fire("Error", "Failed to update profile.", "error");
+      }
+    } catch (error) {
+      console.error("Error updating vendor profile:", error);
+      Swal.fire("Error", "An error occurred while updating.", "error");
+    }
+  };
+
+  const handleSaveEditedProduct = async (updatedProduct) => {
+    try {
+      const formData = new FormData();
+      formData.append("id", updatedProduct.id);
+      formData.append("name", updatedProduct.name);
+      formData.append("description", updatedProduct.description);
+      formData.append("category", updatedProduct.category);
+      formData.append("price", updatedProduct.price);
+
+      // Attach images (newly selected File objects OR existing strings)
+      updatedProduct.images.forEach((img, index) => {
+        if (typeof img === "string") {
+          // Existing image path
+          formData.append(`existing_images[]`, img);
+        } else {
+          // New image file
+          formData.append(`images[]`, img);
+        }
+      });
+
+      const response = await fetch(
+        "http://127.0.0.1:8000/api/vendor/product/update",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const data = await response.json();
+
+      if (data.success) {
+        Swal.fire("Success", "Product updated successfully", "success");
+
+        // Update the product in your frontend state
+        setProducts((prevProducts) =>
+          prevProducts.map((p) => (p.id === data.product.id ? data.product : p))
+        );
+      } else {
+        Swal.fire("Error", "Failed to update product", "error");
+      }
+    } catch (err) {
+      console.error("Update failed:", err);
+      Swal.fire("Error", "Something went wrong!", "error");
+    }
   };
 
   return (
@@ -145,21 +283,28 @@ const VendorProfilePage = () => {
               )}
             </div>
             {isEditing && (
-            <div className="flex justify-center">
-              <button
-                onClick={handleSaveChanges}
-                className="bg-blue-500 text-white px-6 py-2 rounded-md mt-4"
-              >
-                Save Changes
-              </button>
-            </div>
-          )}
+              <div className="flex justify-center">
+                <button
+                  onClick={handleSaveChanges}
+                  className="bg-blue-500 text-white px-6 py-2 rounded-md mt-4"
+                >
+                  Save Changes
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Products section */}
           <div className="mb-8">
-            <div className="bg-white rounded-2xl p-6 mb-6">
+            <div className="flex justify-between bg-white rounded-2xl p-6 mb-6">
               <h2 className="text-3xl font-bold">Uploaded Products</h2>
+              <a
+                href="/vendor/orders"
+                className="text-black relative group pb-1 fw-bold fs-4"
+              >
+                My Orders
+                <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"></span>
+              </a>
             </div>
 
             <div className="bg-blue-50 p-4 rounded-lg">
@@ -171,8 +316,14 @@ const VendorProfilePage = () => {
                     onClick={() => handleCardClick(product.id)}
                   >
                     <img
-                      src={product.image}
-                      alt={`Product ${product.id}`}
+                      src={`${
+                        JSON.parse(product.images).length > 0
+                          ? `http://127.0.0.1:8000/${JSON.parse(
+                              product.images
+                            )[0].replace(/\\/g, "")}`
+                          : "/path/to/default-image.jpg"
+                      }`}
+                      alt={product.name}
                       className="w-full h-40 object-cover"
                     />
 
@@ -206,7 +357,7 @@ const VendorProfilePage = () => {
               </div>
 
               {/* Add New Item Button */}
-              <button 
+              <button
                 onClick={handleAddNewItem}
                 className="mt-4 w-full bg-white border border-gray-200 rounded-md py-3 flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-colors"
               >
@@ -217,14 +368,16 @@ const VendorProfilePage = () => {
         </div>
       </div>
 
-      <AddProductModal 
-        isOpen={isAddProductModalOpen} 
+      <AddProductModal
+        isOpen={isAddProductModalOpen}
         onClose={() => setIsAddProductModalOpen(false)}
       />
 
-      <EditProductModal 
-        isOpen={isEditProductModalOpen} 
+      <EditProductModal
+        isOpen={isEditProductModalOpen}
         onClose={() => setIsEditProductModalOpen(false)}
+        productData={selectedProduct}
+        onSave={handleSaveEditedProduct}
       />
 
       <Footer />

@@ -1,55 +1,54 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+
 const logo =  process.env.PUBLIC_URL + "/assets/logo.png";
 
 const AdminLoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  
 
-  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Reset error state
     setError('');
-    
-    // Validate credentials (admin/admin)
-    if (username === 'admin' && password === 'admin@123') {
-      console.log('Login successful!');
-      setIsLoggedIn(true);
-      
-      // Set timer to navigate to dashboard route
-      setTimeout(() => {
-        navigate('/admin/dashboard');
-      }, 2000);
-    } else {
-      setError('Invalid username or password');
-      console.log('Login failed: Invalid credentials');
-    }
-  };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8000/api/admin/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password }),
+        });
+
+        const data = await response.json();
+
+
+        if (response.status === 422 && data.errors) {
+          // Laravel validation errors
+          const messages = Object.values(data.errors).flat().join("\n");
+          alert(messages);
+        } else if (response.status === 401) {
+          // Invalid credentials
+          alert(data.message || "Invalid email or password. Try again.");
+        } else if (response.status === 200) {
+          // Success
+          localStorage.setItem("admin_username",username);
+          //alert("Login successful!");
+          window.location.href = "/admin/dashboard";
+        } else {
+          alert(data.message || "Login failed. Try again.");
+        }
+      } catch (err) {
+        console.error("Login error:", err);
+        alert("Something went wrong. Please try again later.");
+      }
+   
+};
 
 
   // Show success message if logged in but timer not yet elapsed
-  if (isLoggedIn) {
-    return (
-      <div className="flex items-center justify-center w-full h-screen bg-[#e0e0e0]">
-        <div className="bg-white p-8 rounded text-center">
-          <div className="flex justify-center mb-4 text-green-500">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
-          <h2 className="text-2xl font-bold text-blue-600 mb-2">Welcome, Admin!</h2>
-          <p className="text-gray-600">You have logged in successfully.</p>
-          <p className="text-sm text-gray-500 mt-4">Redirecting to dashboard...</p>
-        </div>
-      </div>
-    );
-  }
-
+  
   return (
     <div className="flex items-center justify-center w-full h-screen bg-cover bg-center relative flex-co " style={{
       backgroundImage: "url('/assets/c-3.jpg')",

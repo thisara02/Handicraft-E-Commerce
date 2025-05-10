@@ -6,46 +6,61 @@ import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 const logo = process.env.PUBLIC_URL + "/assets/logo.png";
 
 const AdminProductPage = () => {
-  const [products, setProducts] = useState([
-    {
-      name: 'Product 1',
-      vendor: 'Vendor A',
-      category: 'Category A',
-      price: 25.99,
-      description: 'Description for product 1',
-    },
-    {
-      name: 'Product 2',
-      vendor: 'Vendor B',
-      category: 'Category B',
-      price: 30.50,
-      description: 'Description for product 2',
-    },
-    {
-      name: 'Product 3',
-      vendor: 'Vendor C',
-      category: 'Category C',
-      price: 40.00,
-      description: 'Description for product 3',
-    },
-  ]);
-
+  const [products, setProducts] = useState([]);
   const [toast, setToast] = useState({ message: '', type: '', timer: 0 });
 
-  const approveProduct = (index) => {
-    const updatedProducts = [...products];
-    updatedProducts.splice(index, 1);
-    setProducts(updatedProducts);
+  // Fetch pending products from the backend
+  useEffect(() => {
+    const fetchPendingProducts = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:8000/api/admin/products/pending');
+        if (!response.ok) {
+          throw new Error('Failed to fetch pending products');
+        }
+        const data = await response.json();
+        setProducts(data);
+      } catch (error) {
+        console.error('Error fetching pending products:', error.message);
+      }
+    };
 
-    setToast({ message: 'Product approved', type: 'success', timer: 100 });
+    fetchPendingProducts();
+  }, []);
+
+  // Approve a product
+  const approveProduct = async (productId) => {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/api/admin/products/${productId}/approve`, {
+        method: 'PUT',
+      });
+      if (!response.ok) {
+        throw new Error('Failed to approve product');
+      }
+      const data = await response.json();
+      setToast({ message: data.message, type: 'success', timer: 100 });
+      setProducts((prevProducts) => prevProducts.filter((product) => product.id !== productId));
+    } catch (error) {
+      console.error('Error approving product:', error.message);
+      setToast({ message: 'Failed to approve product', type: 'error', timer: 100 });
+    }
   };
 
-  const rejectProduct = (index) => {
-    const updatedProducts = [...products];
-    updatedProducts.splice(index, 1);
-    setProducts(updatedProducts);
-
-    setToast({ message: 'Product rejected', type: 'error', timer: 100 });
+  // Reject a product
+  const rejectProduct = async (productId) => {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/api/admin/products/${productId}/reject`, {
+        method: 'PUT',
+      });
+      if (!response.ok) {
+        throw new Error('Failed to reject product');
+      }
+      const data = await response.json();
+      setToast({ message: data.message, type: 'success', timer: 100 });
+      setProducts((prevProducts) => prevProducts.filter((product) => product.id !== productId));
+    } catch (error) {
+      console.error('Error rejecting product:', error.message);
+      setToast({ message: 'Failed to reject product', type: 'error', timer: 100 });
+    }
   };
 
   useEffect(() => {
@@ -143,23 +158,23 @@ const AdminProductPage = () => {
               {/* Product List */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {products.map((product, index) => (
-                  <div key={index} className="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-200">
+                  <div key={product.id} className="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-200">
                     <h3 className="text-xl font-semibold text-gray-900">{product.name}</h3>
                     <p className="text-sm text-gray-600">Vendor: {product.vendor}</p>
                     <p className="text-sm text-gray-600">Category: {product.category}</p>
                     <p className="text-sm text-gray-600">Price: ${product.price}</p>
                     <p className="text-sm text-gray-500">Description: {product.description}</p>
 
-                    {/* Approve and Reject Buttons */}
-                    <div className="flex justify-between items-center mt-4">
+                   {/* Approve and Reject Buttons */}
+                   <div className="flex justify-between items-center mt-4">
                       <button
-                        onClick={() => approveProduct(index)}
+                        onClick={() => approveProduct(product.id)}
                         className="text-green-600 hover:text-green-800 transition duration-200 ease-in-out"
                       >
                         <FaCheckCircle size={24} />
                       </button>
                       <button
-                        onClick={() => rejectProduct(index)}
+                        onClick={() => rejectProduct(product.id)}
                         className="text-red-600 hover:text-red-800 transition duration-200 ease-in-out"
                       >
                         <FaTimesCircle size={24} />

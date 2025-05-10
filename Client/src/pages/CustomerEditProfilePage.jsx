@@ -1,17 +1,38 @@
-import React, { useState} from "react";
+import React, { useState, useEffect } from "react";
 import NavBar from "../components/NavBar1";
 import Footer from "../components/Footer1";
 
 const ProfilePage = () => {
   const [isEditing, setIsEditing] = useState(false);
+  const [customer, setCustomer] = useState('');
+  //const [token, setToken] = useState("");
+
+  // const token = localStorage.getItem("token");
   const [profileData, setProfileData] = useState({
     fullName: "Alexa Rawles",
     email: "alexarawles@gmail.com",
     mobileNumber: "",
-    gender: "",
-    country: "",
     shippingAddress: "",
   });
+  const storedCustomer = JSON.parse(localStorage.getItem("customer"));
+
+  // Load customer from localStorage
+  useEffect(() => {
+    //const storedToken = localStorage.getItem("token");
+    
+
+    if (storedCustomer) {
+      setCustomer(storedCustomer);
+      //setToken(storedToken);
+      //alert(storedCustomer.id);
+      setProfileData({
+        fullName: storedCustomer.name || "",
+        mobileNumber: storedCustomer.phone || "",
+        shippingAddress: storedCustomer.address || "",
+      });
+    }
+  }, []);
+
 
   // Sample order history data
   const orderHistory = [
@@ -35,38 +56,71 @@ const ProfilePage = () => {
     });
   };
 
-  const handleEditToggle = () => {
-    if (isEditing) {
-      // Save logic would go here in a real application
-      console.log("Saving profile data:", profileData);
+  const handleEditToggle = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/customers/update", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id:storedCustomer.id,
+          name: profileData.fullName,
+          phone: profileData.mobileNumber,
+          address: profileData.shippingAddress,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        alert("Profile updated successfully!");
+        setCustomer(data.customer);
+        localStorage.setItem("customer", JSON.stringify(data.customer));
+        setIsEditing(false);
+      } else {
+        alert("Failed to update profile.");
+      }
+    } catch (err) {
+      console.error("Error updating profile:", err);
+      alert("An error occurred.");
     }
-    setIsEditing(!isEditing);
   };
+
 
   return (
     <div className="min-h-screen flex flex-col">
-        <NavBar />
+      <NavBar />
       {/* Main Content */}
       <main className="flex-grow max-w-7xl mx-auto pt-40 px-4 py-8 w-full">
         <div className="bg-white rounded-lg p-6 mb-8">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center">
               <img
-                src="https://via.placeholder.com/80x80" 
-                alt="Alexa Rawles"
+                src={`http://127.0.0.1:8000/${customer.profile_picture}`}
+                alt={customer.name}
                 className="w-20 h-20 rounded-full object-cover mr-4"
               />
               <div>
-                <h1 className="text-2xl font-semibold">{profileData.fullName}</h1>
-                <p className="text-gray-600">{profileData.email}</p>
+                <h1 className="text-2xl font-semibold">{customer.name}</h1>
+                <p className="text-gray-600">{customer.email}</p>
               </div>
             </div>
-            <button
+            {/* <button
               onClick={handleEditToggle}
               className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
             >
               {isEditing ? "Save" : "Edit"}
-            </button>
+            </button> */}
+
+            {isEditing ? (
+          <>
+            <button onClick={handleEditToggle} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Save</button>
+            <button onClick={() => setIsEditing(false)} style={{ marginLeft: "10px" }}>Cancel</button>
+          </>
+        ) : (
+          <button onClick={() => setIsEditing(true)} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Edit Profile</button>
+        )}
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
@@ -82,34 +136,11 @@ const ProfilePage = () => {
                     className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 ) : (
-                  <p className="p-2 bg-gray-50 rounded">{profileData.fullName || "Your First Name"}</p>
+                  <p className="p-2 bg-gray-50 rounded">{customer.name || "Your First Name"}</p>
                 )}
               </div>
 
-              <div className="mb-6">
-                <label className="block text-gray-700 mb-2">Gender</label>
-                {isEditing ? (
-                  <select
-                    name="gender"
-                    value={profileData.gender}
-                    onChange={handleInputChange}
-                    className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  >
-                    <option value="">Select Gender</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Other">Other</option>
-                    <option value="Prefer not to say">Prefer not to say</option>
-                  </select>
-                ) : (
-                  <div className="relative">
-                    <p className="p-2 bg-gray-50 rounded">{profileData.gender || "Your Gender"}</p>
-                    <svg className="absolute right-3 top-3 w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
-                    </svg>
-                  </div>
-                )}
-              </div>
+
             </div>
 
             <div>
@@ -124,37 +155,11 @@ const ProfilePage = () => {
                     className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 ) : (
-                  <p className="p-2 bg-gray-50 rounded">{profileData.mobileNumber || "Mobile Number"}</p>
+                  <p className="p-2 bg-gray-50 rounded">{customer.phone || "Mobile Number"}</p>
                 )}
               </div>
 
-              <div className="mb-6">
-                <label className="block text-gray-700 mb-2">Country</label>
-                {isEditing ? (
-                  <select
-                    name="country"
-                    value={profileData.country}
-                    onChange={handleInputChange}
-                    className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  >
-                    <option value="">Select Country</option>
-                    <option value="United States">United States</option>
-                    <option value="United Kingdom">United Kingdom</option>
-                    <option value="Canada">Canada</option>
-                    <option value="Australia">Australia</option>
-                    <option value="India">India</option>
-                    <option value="Germany">Germany</option>
-                    {/* Add more countries as needed */}
-                  </select>
-                ) : (
-                  <div className="relative">
-                    <p className="p-2 bg-gray-50 rounded">{profileData.country || "Your Country"}</p>
-                    <svg className="absolute right-3 top-3 w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
-                    </svg>
-                  </div>
-                )}
-              </div>
+
             </div>
           </div>
 
@@ -168,7 +173,7 @@ const ProfilePage = () => {
                 className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 h-24"
               ></textarea>
             ) : (
-              <p className="p-2 bg-gray-50 rounded h-24">{profileData.shippingAddress || "Your shipping address will appear here"}</p>
+              <p className="p-2 bg-gray-50 rounded h-24">{customer.address || "Your shipping address will appear here"}</p>
             )}
           </div>
         </div>
@@ -176,7 +181,7 @@ const ProfilePage = () => {
         {/* Order History Section */}
         <div className="bg-white rounded-lg p-6">
           <h2 className="text-xl font-semibold mb-6">Order History</h2>
-          
+
           <div className="space-y-4">
             {orderHistory.map((order, index) => (
               <div key={index} className="border rounded-lg p-4">

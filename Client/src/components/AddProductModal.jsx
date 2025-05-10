@@ -17,21 +17,58 @@ const AddProductModal = ({ isOpen, onClose }) => {
     setSelectedImages(prev => [...prev, ...newImages].slice(0, 4)); // Limit to 4 images
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Process the form submission
-    console.log({
+
+    const vendor = JSON.parse(localStorage.getItem("vendor"));
+
+    const base64Images = await Promise.all(
+      selectedImages.map(async (imgUrl) => {
+        const response = await fetch(imgUrl);
+        const blob = await response.blob();
+        return await convertBlobToBase64(blob);
+      })
+    );
+
+    const productData = {
+      vendor_id: vendor.id,
       name,
       description,
       category,
       price,
-      images: selectedImages
+      images: base64Images,
+    };
+
+    const response = await fetch("http://127.0.0.1:8000/api/products/store", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(productData),
     });
-    
-    // Reset form and close modal
-    resetForm();
-    onClose();
+
+    const data = await response.json();
+
+    if (data.success) {
+      //alert("Product added successfully!");
+      resetForm();
+      onClose();
+       // Reload the page
+    window.location.reload();
+    } else {
+      alert("Failed to add product");
+    }
   };
+
+  const convertBlobToBase64 = (blob) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  };
+
 
   const resetForm = () => {
     setSelectedImages([]);
@@ -52,7 +89,7 @@ const AddProductModal = ({ isOpen, onClose }) => {
       <div className="bg-white rounded-lg w-full max-w-lg mx-4 p-6 max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold">Product Information</h2>
-          <button 
+          <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700"
           >
@@ -75,15 +112,15 @@ const AddProductModal = ({ isOpen, onClose }) => {
             <div className="flex gap-2 overflow-x-auto pb-2">
               {selectedImages.map((image, index) => (
                 <div key={index} className="relative">
-                  <img 
-                    src={image} 
-                    alt={`Product ${index + 1}`} 
-                    className="w-16 h-16 object-cover border rounded" 
+                  <img
+                    src={image}
+                    alt={`Product ${index + 1}`}
+                    className="w-16 h-16 object-cover border rounded"
                   />
                 </div>
               ))}
               {selectedImages.length < 4 && (
-                <div 
+                <div
                   onClick={handleAddImageClick}
                   className="w-16 h-16 border-2 border-dashed border-gray-300 flex items-center justify-center rounded cursor-pointer hover:bg-gray-50"
                 >

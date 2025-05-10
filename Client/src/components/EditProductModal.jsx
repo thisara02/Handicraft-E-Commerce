@@ -11,11 +11,21 @@ const EditProductModal = ({ isOpen, onClose, productData, onSave }) => {
 
   useEffect(() => {
     if (productData) {
+
       setName(productData.name);
       setDescription(productData.description);
       setCategory(productData.category);
       setPrice(productData.price);
       setSelectedImages(productData.images || []);
+      //alert(productData.images);
+    }
+
+    try {
+      const parsedImages = productData?.images ? JSON.parse(productData.images) : [];
+      setSelectedImages(parsedImages || []);
+    } catch (error) {
+      console.error("Error parsing images:", error);
+      setSelectedImages([]);
     }
   }, [productData, isOpen]);
 
@@ -23,9 +33,9 @@ const EditProductModal = ({ isOpen, onClose, productData, onSave }) => {
     const files = Array.from(event.target.files);
     if (files.length === 0) return;
 
-    const newImages = files.map(file => URL.createObjectURL(file));
-    setSelectedImages(prev => [...prev, ...newImages].slice(0, 4)); // Limit to 4 images
+    setSelectedImages(prev => [...prev, ...files].slice(0, 4)); // Store File objects
   };
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -63,7 +73,7 @@ const EditProductModal = ({ isOpen, onClose, productData, onSave }) => {
       <div className="bg-white rounded-lg w-full max-w-lg mx-4 p-6 max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold">Edit Product Information</h2>
-          <button 
+          <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700"
           >
@@ -84,17 +94,24 @@ const EditProductModal = ({ isOpen, onClose, productData, onSave }) => {
               ref={fileInputRef}
             />
             <div className="flex gap-2 overflow-x-auto pb-2">
-              {selectedImages.map((image, index) => (
-                <div key={index} className="relative">
-                  <img 
-                    src={image} 
-                    alt={`Product ${index + 1}`} 
-                    className="w-16 h-16 object-cover border rounded" 
-                  />
-                </div>
-              ))}
+              {(selectedImages || []).map((img, index) => {
+                const imageSrc = typeof img === "string"
+                  ? `http://localhost:8000/${img.replace(/\\/g, "")}`
+                  : URL.createObjectURL(img);
+
+                return (
+                  <div key={index} className="relative w-24 h-24 mr-2">
+                    <img
+                      src={imageSrc}
+                      alt={`Selected ${index}`}
+                      className="w-full h-full object-cover rounded"
+                    />
+                  </div>
+                );
+              })}
+
               {selectedImages.length < 4 && (
-                <div 
+                <div
                   onClick={handleAddImageClick}
                   className="w-16 h-16 border-2 border-dashed border-gray-300 flex items-center justify-center rounded cursor-pointer hover:bg-gray-50"
                 >
@@ -104,6 +121,7 @@ const EditProductModal = ({ isOpen, onClose, productData, onSave }) => {
                 </div>
               )}
             </div>
+
           </div>
 
           {/* Name Field */}

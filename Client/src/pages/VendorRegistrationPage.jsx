@@ -1,241 +1,216 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
+import './style.css';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import "react-phone-input-2/lib/style.css";
 import NavBar from '../components/NavBar2';
 import Footer from '../components/Footer1';
-const Img1 =  process.env.PUBLIC_URL + "/assets/vendor-reg.jpg";
+
+const Img1 = process.env.PUBLIC_URL + "/assets/vendor-reg.jpg";
 
 const VendorRegistrationPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  const [formData, setFormData] = useState({
+    full_name: "",
+    business_name: "",
+    mobile_number: "",
+    address: "",
+    nic: "",
+    email: "",
+    product_description: "",
+    product_types: [],
+    password: "",
+    confirmPassword: "",
+    profile_picture: null,
+  });
+
+  const handleCheckboxChange = (event) => {
+    const { value, checked } = event.target;
+    setFormData((prev) => ({
+      ...prev,
+      product_types: checked
+        ? [...prev.product_types, value]
+        : prev.product_types.filter((item) => item !== value),
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const { password, confirmPassword } = formData;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[\d\W]).{8,}$/;
+
+    if (!passwordRegex.test(password)) {
+      alert("Password doesn't meet the required criteria.");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match.");
+      return;
+    }
+
+    const profilePicInput = document.getElementById("profile_picture");
+    const file = profilePicInput.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = async () => {
+      try {
+        const payload = {
+          ...formData,
+          profile_picture: reader.result,
+        };
+
+        const res = await fetch("http://127.0.0.1:8000/api/vendor/send-otp", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          const firstError = Object.values(data.errors || {})[0]?.[0];
+          alert(firstError || data.message || "An error occurred.");
+          return;
+        }
+
+        if (data.success) {
+          localStorage.setItem("pendingVendor", JSON.stringify(payload));
+          window.location.href = "/otp";
+        } else {
+          alert(data.message || "Failed to send OTP");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("An error occurred.");
+      }
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    } else {
+      alert("Please select a profile picture.");
+    }
+  };
+
   return (
     <div className="flex flex-col min-h-screen" style={{ backgroundColor: "#F7F9FB" }}>
-      {/* Header (NavBar) */}
       <NavBar />
 
-      {/* Main Content */}
-      <div className="flex flex-col items-center justify-center flex-grow pt-40 pb-10">
-        
-        
-        {/* Image Section */}
-        <div className="w-full max-w-4xl mb-8">
-          <img
-            src={Img1} 
-            alt="Vendor Registration Banner"
-            className="rounded-lg shadow-md"
-          />
-        </div>
-        <h1 className="text-4xl font-bold mb-4 font-serif text-center text-[#634816]">
+      <div className="flex flex-col items-center justify-center flex-grow pt-40">
+        <h1 className="text-4xl font-bold mb-12 font-aptos text-center text-[#634816]">
           Vendor Registration
         </h1>
 
-        {/* Form Section */}
-        <form className="w-full max-w-4xl bg-white p-8 rounded-lg shadow-lg min-h-[800px]">
+        <form className="w-full max-w-4xl bg-white p-8 rounded-lg shadow-lg min-h-[800px]" onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* First Column */}
+            {/* Left Column */}
+            <div className="space-y-6">
+              <div className="mb-8 flex items-center justify-center">
+                <img src={Img1} alt="Vendor Banner" className="rounded-lg shadow-md" />
+              </div>
+              <div>
+                <label className="block text-lg font-semibold mb-2">Full Name *</label>
+                <input type="text" required className="w-full p-3 border rounded-md" value={formData.full_name} onChange={(e) => setFormData({ ...formData, full_name: e.target.value })} />
+              </div>
+              <div>
+                <label className="block text-lg font-semibold mb-2">Business Name *</label>
+                <input type="text" required className="w-full p-3 border rounded-md" value={formData.business_name} onChange={(e) => setFormData({ ...formData, business_name: e.target.value })} />
+              </div>
+              <div>
+                <label className="block text-lg font-semibold mb-2">Mobile Number *</label>
+                <input type="tel" required className="w-full p-3 border rounded-md" value={formData.mobile_number} onChange={(e) => setFormData({ ...formData, mobile_number: e.target.value })} />
+              </div>
+              <div>
+                <label className="block text-lg font-semibold mb-2">NIC *</label>
+                <input type="text" required className="w-full p-3 border rounded-md" value={formData.nic} onChange={(e) => setFormData({ ...formData, nic: e.target.value })} />
+              </div>
+            </div>
+
+            {/* Right Column */}
             <div className="space-y-6">
               <div>
-                <label className="block text-lg font-semibold mb-2" htmlFor="fullName">Full Name<sup className="text-red-500">*</sup></label>
-                <input
-                  id="fullName"
-                  type="text"
-                  placeholder="Full Name"
-                  className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  required
-                />
+                <label className="block text-lg font-semibold mb-2">Email *</label>
+                <input type="email" required className="w-full p-3 border rounded-md" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
               </div>
-              
               <div>
-                <label className="block text-lg font-semibold mb-2" htmlFor="businessName">Business Name</label>
-                <input
-                  id="businessName"
-                  type="text"
-                  placeholder="Business Name"
-                  className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  required
-                />
+                <label className="block text-lg font-semibold mb-2">Address *</label>
+                <textarea rows="4" className="w-full p-3 border rounded-md" required value={formData.address} onChange={(e) => setFormData({ ...formData, address: e.target.value })}></textarea>
               </div>
-
-              <div className="flex space-x-4">
-                
-                <div>
-                  <label className="block text-lg font-semibold mb-2" htmlFor="mobileNumber">Mobile Number<sup className="text-red-500">*</sup></label>
-                  <input
-                    id="mobileNumber"
-                    type="tel"
-                    placeholder="Mobile Number"
-                    className="flex-1 p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
-                  />
+              <div>
+                <label className="block text-lg font-semibold mb-2">Product Description *</label>
+                <textarea rows="3" className="w-full p-3 border rounded-md" required value={formData.product_description} onChange={(e) => setFormData({ ...formData, product_description: e.target.value })}></textarea>
+              </div>
+              <div>
+                <label className="block text-lg font-semibold mb-2">Product Types</label>
+                <div className="flex flex-wrap gap-4">
+                  {["Handmade", "Art", "Fashion", "Crafts"].map((type) => (
+                    <label key={type} className="flex items-center gap-2">
+                      <input type="checkbox" value={type} checked={formData.product_types.includes(type)} onChange={handleCheckboxChange} />
+                      {type}
+                    </label>
+                  ))}
                 </div>
               </div>
-
               <div>
-                <label className="block text-lg font-semibold mb-2" htmlFor="address">Permanent Address<sup className="text-red-500">*</sup></label>
-                <input
-                  id="address"
-                  type="text"
-                  placeholder="Permanent Address"
-                  className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  required
-                />
+                <label className="block text-lg font-semibold mb-2">Profile Picture *</label>
+                <input id="profile_picture" type="file" className="w-full p-3 border rounded-md" required />
               </div>
 
-              <div>
-                <label className="block text-lg font-semibold mb-2" htmlFor="nic">NIC<sup className="text-red-500">*</sup></label>
-                <input
-                  id="nic"
-                  type="text"
-                  placeholder="NIC"
-                  className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-lg font-semibold mb-2" htmlFor="email">Email Address<sup className="text-red-500">*</sup></label>
-                <input
-                  id="email"
-                  type="email"
-                  placeholder="Email Address"
-                  className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-lg font-semibold mb-2" htmlFor="productDesc">Brief Description of Products<sup className="text-red-500">*</sup></label>
-                <textarea
-                  id="productDesc"
-                  placeholder="Brief Description of Products"
-                  className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  rows="4"
-                  required
-                ></textarea>
-              </div>
-            </div>
-
-            {/* Second Column */}
-            <div className="space-y-6">
-              <div>
-                <fieldset>
-                  <legend className="text-lg font-semibold mb-2">Type of Products</legend>
-                  <div className="flex flex-wrap gap-4">
-                    <label className="flex items-center">
-                      <input type="checkbox" className="mr-2" /> Arts & Crafts
-                    </label>
-                    <label className="flex items-center">
-                      <input type="checkbox" className="mr-2" /> Household Items
-                    </label>
-                    <label className="flex items-center">
-                      <input type="checkbox" className="mr-2" /> Gift and Souvenirs
-                    </label>
-                    <label className="flex items-center">
-                      <input type="checkbox" className="mr-2" /> Fashion & Clothing
-                    </label>
-                    <label className="flex items-center">
-                      <input type="checkbox" className="mr-2" /> Food and Beverages
-                    </label>
-                    <label className="flex items-center">
-                      <input type="checkbox" className="mr-2" /> Jewelry and Accessories
-                    </label>
-                  </div>
-                </fieldset>
-              </div>
-
+              {/* Password Fields */}
               <div className="space-y-6">
-              {/* Password Field */}
-              <div className="relative">
-                <label className="block text-lg font-semibold mb-2" htmlFor="password">
-                  Password
-                  <sup className="text-red-500">*</sup>
-                </label>
-                <input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Password"
-                  className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  required
-                />
-                <button
-                  type="button"
-                  className="absolute right-3 top-3 text-gray-500 hover:text-gray-800 focus:outline-none"
-                  onClick={() => setShowPassword((prev) => !prev)}
-                >
-                  {showPassword ? <FaEyeSlash /> : <FaEye />}
-                </button>
-              </div>
-
-              <div className="text-red-500 text-sm mt-2 space-y-1">
-                <p>* Must be at least 8 characters long</p>
-                <p>* Must include at least one uppercase and one lowercase letter</p>
-                <p>* Must contain at least one number or special character (e.g., @, #, $)</p>
-              </div>
-
-              {/* Confirm Password Field */}
-              <div className="relative">
-                <label className="block text-lg font-semibold mb-2" htmlFor="confirmPassword">
-                  Confirm Password
-                  <sup className="text-red-500">*</sup>
-                </label>
-                <input
-                  id="confirmPassword"
-                  type={showConfirmPassword ? "text" : "password"}
-                  placeholder="Confirm Password"
-                  className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  required
-                />
-                <button
-                  type="button"
-                  className="absolute right-3 top-3 text-gray-500 hover:text-gray-800 focus:outline-none"
-                  onClick={() => setShowConfirmPassword((prev) => !prev)}
-                >
-                  {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
-                </button>
-              </div>
-            </div>
-
-
-
-              <div>
-                <label className="block text-lg font-semibold mb-2" htmlFor="productImages">Profile Picture</label>
-                <input
-                  id="productImages"
-                  type="file"
-                  multiple
-                  className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  required
-                />
+                <div className="relative">
+                  <label className="block text-lg font-semibold mb-2">Password *</label>
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    value={formData.password}
+                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                    className="w-full p-3 border rounded-md"
+                    required
+                  />
+                  <button type="button" className="absolute right-3 top-3 text-gray-500" onClick={() => setShowPassword(!showPassword)}>
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  </button>
+                </div>
+                <div className="relative">
+                  <label className="block text-lg font-semibold mb-2">Confirm Password *</label>
+                  <input
+                    type={showConfirmPassword ? "text" : "password"}
+                    value={formData.confirmPassword}
+                    onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                    className="w-full p-3 border rounded-md"
+                    required
+                  />
+                  <button type="button" className="absolute right-3 top-3 text-gray-500" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                    {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                  </button>
+                </div>
+                <div className="text-red-500 text-sm mt-2 space-y-1">
+                  <p>* At least 8 characters</p>
+                  <p>* Includes uppercase & lowercase letters</p>
+                  <p>* Contains a number or special character</p>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Centered Submit and Login Text */}
-          <div className="flex justify-center items-center space-x-4 mt-6">
-            <button
-              type="submit"
-              className="w-96 py-3 px-6 bg-[#634816] text-white rounded-lg hover:bg-[#978845] focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
+          <div className="flex justify-center mt-8">
+            <button type="submit" className="w-full py-3 px-6 bg-[#634816] text-white font-semibold rounded-md hover:bg-[#816340]">
               Submit
             </button>
           </div>
 
-          <p className="mt-2 text-center">
+          <p className="mt-4 text-center">
             Already have an account?{" "}
-            <a href="/vendor/login" className="text-green-500 hover:underline">
-              Login
-            </a>
+            <a href="/vendor/login" className="text-blue-600 hover:underline">Login</a>
           </p>
         </form>
       </div>
 
-      {/* Footer */}
       <Footer />
     </div>
   );
 };
 
 export default VendorRegistrationPage;
-
