@@ -4,7 +4,6 @@ import Footer from "../components/Footer1";
 import { FaTag, FaShoppingBag, FaCartPlus, FaCalendarAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-// Sample offers data - in a real application, this would come from an API
 const sampleOffers = [
   {
     id: 1,

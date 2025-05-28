@@ -370,7 +370,7 @@ const applyFilters = async () => {
                   />
                   <h3 className="text-lg font-semibold">{product.name}</h3>
                   <p className="text-blue-600 font-bold">Rs.{priceNumber}</p> {/* Display the numeric price */}
-                  <p className="text-gray-600 text-sm">{product.description}</p>
+                  {/* <p className="text-gray-600 text-sm">{product.description}</p> */}
                   <p className="text-gray-500 text-xs mt-2">{product.category}</p>
                   <button
                     onClick={() => handleAddToCart(product)}

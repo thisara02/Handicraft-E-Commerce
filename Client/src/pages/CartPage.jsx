@@ -235,7 +235,7 @@ const CartPage = () => {
                   />
               <h3 className="text-lg font-semibold">{product.name}</h3>
               <p className="text-blue-600 font-bold">{product.price}</p>
-              <p className="text-gray-600 text-sm">{product.description}</p>
+              {/*<p className="text-gray-600 text-sm">{product.description}</p>*/}
               <Link
                 to={`/product/${product.id}`}
                 className="text-teal-500 font-semibold mt-2 inline-block"

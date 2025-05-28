@@ -82,7 +82,7 @@ const NavBar = () => {
                 <FaShoppingCart className="text-xl" />
                 <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"></span>
               </a>
-              <a href="/wishlist" className="text-black relative group pb-1">
+              <a href="/whish" className="text-black relative group pb-1">
                 <FaRegHeart className="text-xl" />
                 <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"></span>
               </a>

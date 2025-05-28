@@ -49,14 +49,14 @@ const OrderConfirmationPage = () => {
           
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link
-              to="/"
+              to="/product"
               className="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600 transition-colors"
             >
               Continue Shopping
             </Link>
             
             <Link
-              to="/account"
+              to="/home"
               className="bg-gray-200 text-gray-800 py-2 px-6 rounded hover:bg-gray-300 transition-colors"
             >
               View Order History

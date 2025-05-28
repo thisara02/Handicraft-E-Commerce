@@ -145,7 +145,7 @@ const VendorRegistrationPage = () => {
               <div>
                 <label className="block text-lg font-semibold mb-2">Product Types</label>
                 <div className="flex flex-wrap gap-4">
-                  {["Handmade", "Art", "Fashion", "Crafts"].map((type) => (
+                  {["Arts & Crafts", "Household Items", "Jewelry Accessories","Food & Beverages","Gifts & Souvenirs","Fashion & Clothing"].map((type) => (
                     <label key={type} className="flex items-center gap-2">
                       <input type="checkbox" value={type} checked={formData.product_types.includes(type)} onChange={handleCheckboxChange} />
                       {type}

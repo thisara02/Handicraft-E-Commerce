@@ -108,6 +108,7 @@ const AdminDashboardPage = () => {
           ...event,
           posterUrl: `http://127.0.0.1:8000/storage/${event.poster}`, // Construct the full URL
         }))); // Set events in state
+        console.log(events);
       } catch (error) {
         console.error('Error fetching events:', error.message);
       }
