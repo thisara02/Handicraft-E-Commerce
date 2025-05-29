@@ -5,12 +5,6 @@
 Serendib Galleria is a culturally focused e-commerce platform that enables Sri Lankan artisans and SMEs to sell their handcrafted products directly to customers around the world. The system promotes fair trade, reduces dependence on middlemen, and supports the digital inclusion of local craft vendors.
 
 ---
-## 🖼️ Project Poster
-
-![Project Poster](https://drive.google.com/uc?export=view&id=1jeKOxRb9MZzgWMTQ-7sg2Pmrm3lVwjb5)
-
-
----
 ## 🔗 Project Links
 
 - 🔸 **Frontend GitHub Repo:** [Handicraft E-Commerce Frontend](https://github.com/thisara02/Handicraft-E-Commerce)
